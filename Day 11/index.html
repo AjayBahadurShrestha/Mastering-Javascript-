@@ -8,6 +8,7 @@
   <h1>Number Guessing Game</h1>
 
   <p>Guess a number between 1 and 10</p>
+  <p>Created by Ajay </p>
 
   <input type="number" id="guessInput" placeholder="Enter your guess">
 
@@ -36,10 +37,9 @@
       } else if (userGuess < secretNumber) {
         message.textContent = "Too low! Try again.";
       } else {
-        message.textContent = "Please enter a valid number.";
+        message.textContent = "Please enter a valid number from 1-10.";
       }
     }
-
     function resetGame() {
       secretNumber = generateNumber();
       document.getElementById("guessInput").value = "";
