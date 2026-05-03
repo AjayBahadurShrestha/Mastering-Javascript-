@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Number Guessing Game</title>
+</head>
+<body>
+
+  <h1>Number Guessing Game</h1>
+
+  <p>Guess a number between 1 and 10</p>
+
+  <input type="number" id="guessInput" placeholder="Enter your guess">
+
+  <button onclick="checkGuess()">Guess</button>
+  <button onclick="resetGame()">Reset</button>
+
+  <h2 id="message"></h2>
+
+  <script>
+    let secretNumber = generateNumber();
+
+    function generateNumber() {
+      return Math.floor(Math.random() * 10) + 1;
+    }
+
+    function checkGuess() {
+      let userGuess = document.getElementById("guessInput").value;
+      let message = document.getElementById("message");
+
+      userGuess = Number(userGuess);
+
+      if (userGuess === secretNumber) {
+        message.textContent = "Correct! You guessed the number!";
+      } else if (userGuess > secretNumber) {
+        message.textContent = "Too high! Try again.";
+      } else if (userGuess < secretNumber) {
+        message.textContent = "Too low! Try again.";
+      } else {
+        message.textContent = "Please enter a valid number.";
+      }
+    }
+
+    function resetGame() {
+      secretNumber = generateNumber();
+      document.getElementById("guessInput").value = "";
+      document.getElementById("message").textContent = "Game reset. Try again!";
+    }
+  </script>
+
+</body>
+</html>
