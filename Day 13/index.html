@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sleep Checker</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 10px;
+        }
+
+        #result {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Sleep Time Checker</h2>
+
+    <input type="number" id="sleep" placeholder="Hours slept">
+    <br>
+
+    <button onclick="checkSleep()">Check</button>
+
+    <p id="result"></p>
+
+    <script>
+
+        function checkSleep() {
+            var hours = document.getElementById("sleep").value;
+
+            if (hours == "") {
+                document.getElementById("result").innerHTML = "Please enter hours";
+                return;
+            }
+
+            var message = "";
+
+            // Simple sleep logic
+            if (hours < 6) {
+                message = "Too little sleep ";
+            } else if (hours >= 6 && hours <= 8) {
+                message = "Good sleep ";
+            } else {
+                message = "Too much sleep 💤";
+            }
+
+            document.getElementById("result").innerHTML = message;
+        }
+
+    </script>
+
+</body>
+</html>
