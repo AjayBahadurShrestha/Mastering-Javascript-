@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expense Checker</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 10px;
+        }
+
+        #result {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Daily Expense Checker</h2>
+
+    <input type="number" id="money" placeholder="Enter amount spent today">
+    <br>
+
+    <button onclick="checkExpense()">Check</button>
+
+    <p id="result"></p>
+
+    <script>
+
+        function checkExpense() {
+            var amount = document.getElementById("money").value;
+
+            if (amount == "") {
+                document.getElementById("result").innerHTML = "Please enter amount";
+                return;
+            }
+
+            var message = "";
+
+            // Simple budget logic
+            if (amount <= 500) {
+                message = "Good! You are within budget 👍";
+            } else if (amount > 500 && amount <= 1000) {
+                message = "Be careful! Spending is moderate ⚠️";
+            } else {
+                message = "Too much spending! Try to save 💸";
+            }
+
+            document.getElementById("result").innerHTML = message;
+        }
+
+    </script>
+
+</body>
+</html>
