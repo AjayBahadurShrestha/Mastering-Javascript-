@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shopping Cart</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            width: 220px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .box {
+            width: 350px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid gray;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>Shopping Cart</h2>
+
+        <input type="number" id="price" placeholder="Product price">
+        <br>
+
+        <input type="number" id="quantity" placeholder="Quantity">
+        <br>
+
+        <button onclick="calculateBill()">Calculate</button>
+
+        <div id="result"></div>
+
+    </div>
+
+    <script>
+
+        function calculateBill() {
+
+            var price = document.getElementById("price").value;
+            var quantity = document.getElementById("quantity").value;
+
+            if (price == "" || quantity == "") {
+                document.getElementById("result").innerHTML =
+                    "Please fill all fields";
+                return;
+            }
+
+            var total = price * quantity;
+
+            var discount = 0;
+
+            // Discount rules
+            if (total > 5000) {
+                discount = total * 0.20;
+            }
+            else if (total > 2000) {
+                discount = total * 0.10;
+            }
+            else {
+                discount = 0;
+            }
+
+            var finalAmount = total - discount;
+
+            document.getElementById("result").innerHTML =
+                "Total Price: Rs. " + total + "<br>" +
+                "Discount: Rs. " + discount + "<br>" +
+                "Final Amount: Rs. " + finalAmount;
+
+        }
+
+    </script>
+
+</body>
+</html>
