@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Ticket Booking</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .box {
+            width: 350px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid gray;
+            border-radius: 10px;
+        }
+
+        input, select, button {
+            padding: 10px;
+            margin: 10px;
+            width: 220px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>Movie Ticket Booking</h2>
+
+        <select id="movieType">
+            <option value="">Select Movie Type</option>
+            <option value="normal">Normal</option>
+            <option value="vip">VIP</option>
+        </select>
+
+        <br>
+
+        <input type="number" id="tickets" placeholder="Number of tickets">
+
+        <br>
+
+        <button onclick="bookTickets()">Book Now</button>
+
+        <div id="result"></div>
+
+    </div>
+
+    <script>
+
+        function bookTickets() {
+
+            var type = document.getElementById("movieType").value;
+            var tickets = document.getElementById("tickets").value;
+
+            if (type == "" || tickets == "") {
+                document.getElementById("result").innerHTML =
+                    "Please fill all fields";
+                return;
+            }
+
+            var price = 0;
+
+            // Ticket price
+            if (type == "normal") {
+                price = 300;
+            }
+            else {
+                price = 500;
+            }
+
+            var total = price * tickets;
+
+            var discount = 0;
+
+            // Discount condition
+            if (tickets > 5) {
+                discount = total * 0.10;
+            }
+
+            var finalAmount = total - discount;
+
+            document.getElementById("result").innerHTML =
+                "Ticket Type: " + type + "<br>" +
+                "Total Price: Rs. " + total + "<br>" +
+                "Discount: Rs. " + discount + "<br>" +
+                "Final Amount: Rs. " + finalAmount;
+
+        }
+
+    </script>
+
+</body>
+</html>
