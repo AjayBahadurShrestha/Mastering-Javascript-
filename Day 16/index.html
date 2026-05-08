@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loan EMI Calculator</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 40px;
+            background-color: #f2f2f2;
+        }
+
+        .box {
+            width: 400px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+
+        input, button {
+            width: 250px;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>Loan EMI Calculator</h2>
+
+        <input type="number" id="loan" placeholder="Enter loan amount">
+        <br>
+
+        <input type="number" id="years" placeholder="Enter years">
+        <br>
+
+        <button onclick="calculateEMI()">Calculate EMI</button>
+
+        <div id="result"></div>
+
+    </div>
+
+    <script>
+
+        function calculateEMI() {
+
+            var loan = document.getElementById("loan").value;
+            var years = document.getElementById("years").value;
+
+            if (loan == "" || years == "") {
+                document.getElementById("result").innerHTML =
+                    "Please fill all fields";
+                return;
+            }
+
+            var rate = 0;
+
+            // Interest rate conditions
+            if (years <= 2) {
+                rate = 8;
+            }
+            else if (years <= 5) {
+                rate = 12;
+            }
+            else {
+                rate = 15;
+            }
+
+            // Interest calculation
+            var interest = (loan * rate * years) / 100;
+
+            var totalPayment = Number(loan) + interest;
+
+            var months = years * 12;
+
+            var emi = totalPayment / months;
+
+            document.getElementById("result").innerHTML =
+                "Interest Rate: " + rate + "%<br><br>" +
+                "Total Interest: Rs. " + interest + "<br><br>" +
+                "Total Payment: Rs. " + totalPayment + "<br><br>" +
+                "Monthly EMI: Rs. " + emi.toFixed(2);
+
+        }
+
+    </script>
+
+</body>
+</html>
