@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flight Ticket Calculator</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background-color: #f2f2f2;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .box {
+            width: 420px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+
+        input, select, button {
+            width: 260px;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>Flight Ticket Calculator</h2>
+
+        <select id="destination">
+            <option value="">Select Destination</option>
+            <option value="kathmandu">Kathmandu</option>
+            <option value="pokhara">Pokhara</option>
+            <option value="chitwan">Chitwan</option>
+        </select>
+
+        <br>
+
+        <select id="ticketClass">
+            <option value="">Select Class</option>
+            <option value="economy">Economy</option>
+            <option value="business">Business</option>
+        </select>
+
+        <br>
+
+        <input type="number" id="passengers" placeholder="Number of passengers">
+
+        <br>
+
+        <button onclick="calculateTicket()">Calculate Price</button>
+
+        <div id="result"></div>
+
+    </div>
+
+    <script>
+
+        function calculateTicket() {
+
+            var destination =
+                document.getElementById("destination").value;
+
+            var ticketClass =
+                document.getElementById("ticketClass").value;
+
+            var passengers =
+                document.getElementById("passengers").value;
+
+            if (destination == "" ||
+                ticketClass == "" ||
+                passengers == "") {
+
+                document.getElementById("result").innerHTML =
+                    "Please fill all fields";
+
+                return;
+            }
+
+            var ticketPrice = 0;
+
+            // Destination prices
+            if (destination == "kathmandu") {
+                ticketPrice = 5000;
+            }
+            else if (destination == "pokhara") {
+                ticketPrice = 3000;
+            }
+            else {
+                ticketPrice = 2500;
+            }
+
+            // Business class extra charge
+            if (ticketClass == "business") {
+                ticketPrice = ticketPrice + 2000;
+            }
+
+            // Total price
+            var total = ticketPrice * passengers;
+
+            // Tax calculation
+            var tax = total * 0.13;
+
+            // Final amount
+            var finalAmount = total + tax;
+
+            document.getElementById("result").innerHTML =
+
+                "Ticket Price: Rs. " + ticketPrice + "<br><br>" +
+
+                "Total Price: Rs. " + total + "<br><br>" +
+
+                "Tax (13%): Rs. " + tax + "<br><br>" +
+
+                "Final Amount: Rs. " + finalAmount;
+
+        }
+
+    </script>
+
+</body>
+</html>
