@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Car Rental System</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background-color: #e9ecef;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .box {
+            width: 500px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 0px 15px gray;
+        }
+
+        input, select, button {
+            width: 300px;
+            padding: 12px;
+            margin: 10px;
+            font-size: 15px;
+        }
+
+        button {
+            background-color: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 18px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>Car Rental Booking System</h2>
+
+        <input type="text" id="customer"
+            placeholder="Customer Name">
+
+        <br>
+
+        <select id="car">
+
+            <option value="">Select Car</option>
+
+            <option value="hatchback">Hatchback</option>
+
+            <option value="suv">SUV</option>
+
+            <option value="luxury">Luxury</option>
+
+        </select>
+
+        <br>
+
+        <input type="number" id="days"
+            placeholder="Rental Days">
+
+        <br>
+
+        <select id="driver">
+
+            <option value="">Driver Required?</option>
+
+            <option value="yes">Yes</option>
+
+            <option value="no">No</option>
+
+        </select>
+
+        <br>
+
+        <button onclick="calculateRental()">
+            Generate Invoice
+        </button>
+
+        <div id="result"></div>
+
+    </div>
+
+    <script>
+
+        function calculateRental() {
+
+            var customer =
+                document.getElementById("customer").value;
+
+            var car =
+                document.getElementById("car").value;
+
+            var days =
+                Number(document.getElementById("days").value);
+
+            var driver =
+                document.getElementById("driver").value;
+
+            // Validation
+            if (customer == "" ||
+                car == "" ||
+                days == "" ||
+                driver == "") {
+
+                document.getElementById("result").innerHTML =
+                    "Please fill all fields";
+
+                return;
+            }
+
+            var carPrice = 0;
+
+            // Car prices
+            if (car == "hatchback") {
+
+                carPrice = 3000;
+
+            }
+            else if (car == "suv") {
+
+                carPrice = 5000;
+
+            }
+            else {
+
+                carPrice = 9000;
+
+            }
+
+            // Rental charge
+            var rentalCost = carPrice * days;
+
+            // Driver charge
+            var driverCost = 0;
+
+            if (driver == "yes") {
+
+                driverCost = 1500 * days;
+
+            }
+
+            // Subtotal
+            var subtotal =
+                rentalCost + driverCost;
+
+            // Tax
+            var tax = subtotal * 0.13;
+
+            // Total with tax
+            var total = subtotal + tax;
+
+            // Discount
+            var discount = 0;
+
+            if (days > 7) {
+
+                discount = total * 0.15;
+
+            }
+
+            // Final amount
+            var finalAmount = total - discount;
+
+            // Show invoice
+            document.getElementById("result").innerHTML =
+
+                "<h3>Rental Invoice</h3>" +
+
+                "Customer: " + customer + "<br><br>" +
+
+                "Car Type: " + car + "<br><br>" +
+
+                "Rental Days: " + days + "<br><br>" +
+
+                "Rental Cost: Rs. " + rentalCost + "<br><br>" +
+
+                "Driver Cost: Rs. " + driverCost + "<br><br>" +
+
+                "Tax: Rs. " + tax.toFixed(2) + "<br><br>" +
+
+                "Discount: Rs. " + discount.toFixed(2) + "<br><br>" +
+
+                "<strong>Final Amount: Rs. " +
+                finalAmount.toFixed(2) +
+                "</strong>";
+
+        }
+
+    </script>
+
+</body>
+</html>
