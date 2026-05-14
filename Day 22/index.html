@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Shopping Checkout</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background-color: #f1f3f6;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .box {
+            width: 550px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 0px 12px gray;
+        }
+
+        input, select, button {
+            width: 320px;
+            padding: 12px;
+            margin: 10px;
+            font-size: 15px;
+        }
+
+        button {
+            background-color: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 18px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>Online Shopping Checkout</h2>
+
+        <input type="number" id="laptop"
+            placeholder="Laptop Quantity">
+        <br>
+
+        <input type="number" id="headphone"
+            placeholder="Headphone Quantity">
+        <br>
+
+        <input type="number" id="mouse"
+            placeholder="Mouse Quantity">
+        <br>
+
+        <select id="delivery">
+
+            <option value="">Select Delivery</option>
+
+            <option value="normal">Normal Delivery</option>
+
+            <option value="express">Express Delivery</option>
+
+        </select>
+
+        <br>
+
+        <input type="text" id="coupon"
+            placeholder="Enter Coupon Code">
+
+        <br>
+
+        <button onclick="generateCheckout()">
+            Checkout
+        </button>
+
+        <div id="result"></div>
+
+    </div>
+
+    <script>
+
+        function generateCheckout() {
+
+            var laptop =
+                Number(document.getElementById("laptop").value);
+
+            var headphone =
+                Number(document.getElementById("headphone").value);
+
+            var mouse =
+                Number(document.getElementById("mouse").value);
+
+            var delivery =
+                document.getElementById("delivery").value;
+
+            var coupon =
+                document.getElementById("coupon").value;
+
+            // Validation
+            if (delivery == "") {
+
+                document.getElementById("result").innerHTML =
+                    "Please select delivery type";
+
+                return;
+            }
+
+            // Product prices
+            var laptopPrice = 80000;
+            var headphonePrice = 3000;
+            var mousePrice = 1500;
+
+            // Product totals
+            var laptopTotal =
+                laptop * laptopPrice;
+
+            var headphoneTotal =
+                headphone * headphonePrice;
+
+            var mouseTotal =
+                mouse * mousePrice;
+
+            // Subtotal
+            var subtotal =
+                laptopTotal +
+                headphoneTotal +
+                mouseTotal;
+
+            // Delivery charge
+            var deliveryCharge = 0;
+
+            if (delivery == "normal") {
+
+                deliveryCharge = 200;
+
+            }
+            else {
+
+                deliveryCharge = 500;
+
+            }
+
+            // Discount
+            var discount = 0;
+
+            if (coupon == "SAVE10") {
+
+                discount = subtotal * 0.10;
+
+            }
+            else if (coupon == "SAVE20") {
+
+                discount = subtotal * 0.20;
+
+            }
+
+            // Amount after discount
+            var afterDiscount =
+                subtotal - discount;
+
+            // Tax
+            var tax =
+                afterDiscount * 0.13;
+
+            // Final amount
+            var finalAmount =
+                afterDiscount +
+                tax +
+                deliveryCharge;
+
+            // Display result
+            document.getElementById("result").innerHTML =
+
+                "<h3>Order Summary</h3>" +
+
+                "Laptop Total: Rs. " +
+                laptopTotal + "<br><br>" +
+
+                "Headphone Total: Rs. " +
+                headphoneTotal + "<br><br>" +
+
+                "Mouse Total: Rs. " +
+                mouseTotal + "<br><br>" +
+
+                "Subtotal: Rs. " +
+                subtotal + "<br><br>" +
+
+                "Discount: Rs. " +
+                discount.toFixed(2) + "<br><br>" +
+
+                "Tax: Rs. " +
+                tax.toFixed(2) + "<br><br>" +
+
+                "Delivery Charge: Rs. " +
+                deliveryCharge + "<br><br>" +
+
+                "<strong>Final Amount: Rs. " +
+                finalAmount.toFixed(2) +
+                "</strong>";
+
+        }
+
+    </script>
+
+</body>
+</html>
