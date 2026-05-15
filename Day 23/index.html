@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Banking System</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .box {
+            width: 500px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 0px 15px gray;
+        }
+
+        input, button {
+            width: 250px;
+            padding: 12px;
+            margin: 10px;
+            font-size: 15px;
+        }
+
+        button {
+            cursor: pointer;
+            background-color: black;
+            color: white;
+            border: none;
+        }
+
+        #balance {
+            font-size: 24px;
+            margin: 20px;
+            color: green;
+        }
+
+        #history {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .transaction {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>Banking Dashboard</h2>
+
+        <div id="balance">
+            Balance: Rs. 10000
+        </div>
+
+        <input type="number"
+            id="amount"
+            placeholder="Enter amount">
+
+        <br>
+
+        <button onclick="depositMoney()">
+            Deposit
+        </button>
+
+        <button onclick="withdrawMoney()">
+            Withdraw
+        </button>
+
+        <div id="message"></div>
+
+        <div id="history">
+            <h3>Transaction History</h3>
+        </div>
+
+    </div>
+
+    <script>
+
+        // Starting balance
+        var balance = 10000;
+
+        // Deposit function
+        function depositMoney() {
+
+            var amount =
+                Number(document.getElementById("amount").value);
+
+            if (amount <= 0) {
+
+                document.getElementById("message").innerHTML =
+                    "Enter valid deposit amount";
+
+                return;
+            }
+
+            balance = balance + amount;
+
+            updateBalance();
+
+            addTransaction(
+                "Deposited Rs. " + amount
+            );
+
+            document.getElementById("message").innerHTML =
+                "Money deposited successfully";
+
+        }
+
+        // Withdraw function
+        function withdrawMoney() {
+
+            var amount =
+                Number(document.getElementById("amount").value);
+
+            if (amount <= 0) {
+
+                document.getElementById("message").innerHTML =
+                    "Enter valid withdrawal amount";
+
+                return;
+            }
+
+            if (amount > balance) {
+
+                document.getElementById("message").innerHTML =
+                    "Insufficient balance";
+
+                return;
+            }
+
+            balance = balance - amount;
+
+            updateBalance();
+
+            addTransaction(
+                "Withdrawn Rs. " + amount
+            );
+
+            document.getElementById("message").innerHTML =
+                "Money withdrawn successfully";
+
+        }
+
+        // Update balance on screen
+        function updateBalance() {
+
+            document.getElementById("balance").innerHTML =
+                "Balance: Rs. " + balance;
+
+        }
+
+        // Add transaction history
+        function addTransaction(text) {
+
+            var history =
+                document.getElementById("history");
+
+            history.innerHTML =
+                history.innerHTML +
+
+                "<div class='transaction'>" +
+                text +
+                "</div>";
+
+        }
+
+    </script>
+
+</body>
+</html>
