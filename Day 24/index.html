@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Salary System</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background-color: #eef1f5;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .box {
+            width: 550px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 0px 12px gray;
+        }
+
+        input, button {
+            width: 320px;
+            padding: 12px;
+            margin: 10px;
+            font-size: 15px;
+        }
+
+        button {
+            background-color: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 18px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>Employee Salary Management</h2>
+
+        <input type="text"
+            id="employee"
+            placeholder="Employee Name">
+
+        <br>
+
+        <input type="number"
+            id="salary"
+            placeholder="Basic Salary">
+
+        <br>
+
+        <input type="number"
+            id="hours"
+            placeholder="Working Hours">
+
+        <br>
+
+        <input type="number"
+            id="overtime"
+            placeholder="Overtime Hours">
+
+        <br>
+
+        <button onclick="generateSalary()">
+            Generate Salary Slip
+        </button>
+
+        <div id="result"></div>
+
+    </div>
+
+    <script>
+
+        function generateSalary() {
+
+            var employee =
+                document.getElementById("employee").value;
+
+            var salary =
+                Number(document.getElementById("salary").value);
+
+            var hours =
+                Number(document.getElementById("hours").value);
+
+            var overtime =
+                Number(document.getElementById("overtime").value);
+
+            // Validation
+            if (employee == "" ||
+                salary <= 0 ||
+                hours <= 0 ||
+                overtime < 0) {
+
+                document.getElementById("result").innerHTML =
+                    "Please enter valid information";
+
+                return;
+            }
+
+            // Bonus
+            var bonus = 0;
+
+            if (salary > 50000) {
+
+                bonus = salary * 0.10;
+
+            }
+            else {
+
+                bonus = salary * 0.05;
+
+            }
+
+            // Overtime payment
+            var overtimePay =
+                overtime * 500;
+
+            // Gross salary
+            var grossSalary =
+                salary +
+                bonus +
+                overtimePay;
+
+            // Tax deduction
+            var tax =
+                grossSalary * 0.13;
+
+            // Final salary
+            var finalSalary =
+                grossSalary - tax;
+
+            // Salary status
+            var status = "";
+
+            if (finalSalary >= 100000) {
+
+                status = "High Income Employee";
+
+            }
+            else if (finalSalary >= 50000) {
+
+                status = "Mid Income Employee";
+
+            }
+            else {
+
+                status = "Entry Level Employee";
+
+            }
+
+            // Display salary slip
+            document.getElementById("result").innerHTML =
+
+                "<h3>Salary Slip</h3>" +
+
+                "Employee Name: " +
+                employee + "<br><br>" +
+
+                "Basic Salary: Rs. " +
+                salary + "<br><br>" +
+
+                "Bonus: Rs. " +
+                bonus.toFixed(2) + "<br><br>" +
+
+                "Overtime Pay: Rs. " +
+                overtimePay + "<br><br>" +
+
+                "Gross Salary: Rs. " +
+                grossSalary.toFixed(2) + "<br><br>" +
+
+                "Tax Deduction: Rs. " +
+                tax.toFixed(2) + "<br><br>" +
+
+                "<strong>Final Salary: Rs. " +
+                finalSalary.toFixed(2) +
+                "</strong><br><br>" +
+
+                "Employee Status: " +
+                status;
+
+        }
+
+    </script>
+
+</body>
+</html>
