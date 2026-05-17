@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>School Fee Management</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background-color: #f0f2f5;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .box {
+            width: 600px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 0px 15px gray;
+        }
+
+        input, select, button {
+            width: 340px;
+            padding: 12px;
+            margin: 10px;
+            font-size: 15px;
+        }
+
+        button {
+            background-color: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 18px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>School Fee Management System</h2>
+
+        <input type="text"
+            id="student"
+            placeholder="Student Name">
+
+        <br>
+
+        <select id="studentClass">
+
+            <option value="">Select Class</option>
+
+            <option value="primary">
+                Class 1 - 5
+            </option>
+
+            <option value="secondary">
+                Class 6 - 10
+            </option>
+
+            <option value="higher">
+                Class 11 - 12
+            </option>
+
+        </select>
+
+        <br>
+
+        <select id="transport">
+
+            <option value="">Transport Service?</option>
+
+            <option value="yes">Yes</option>
+
+            <option value="no">No</option>
+
+        </select>
+
+        <br>
+
+        <select id="hostel">
+
+            <option value="">Hostel Service?</option>
+
+            <option value="yes">Yes</option>
+
+            <option value="no">No</option>
+
+        </select>
+
+        <br>
+
+        <input type="number"
+            id="lateDays"
+            placeholder="Late Payment Days">
+
+        <br>
+
+        <button onclick="generateFee()">
+            Generate Fee Receipt
+        </button>
+
+        <div id="result"></div>
+
+    </div>
+
+    <script>
+
+        function generateFee() {
+
+            var student =
+                document.getElementById("student").value;
+
+            var studentClass =
+                document.getElementById("studentClass").value;
+
+            var transport =
+                document.getElementById("transport").value;
+
+            var hostel =
+                document.getElementById("hostel").value;
+
+            var lateDays =
+                Number(document.getElementById("lateDays").value);
+
+            // Validation
+            if (student == "" ||
+                studentClass == "" ||
+                transport == "" ||
+                hostel == "") {
+
+                document.getElementById("result").innerHTML =
+                    "Please fill all fields";
+
+                return;
+            }
+
+            // Tuition fee
+            var tuitionFee = 0;
+
+            if (studentClass == "primary") {
+
+                tuitionFee = 15000;
+
+            }
+            else if (studentClass == "secondary") {
+
+                tuitionFee = 25000;
+
+            }
+            else {
+
+                tuitionFee = 40000;
+
+            }
+
+            // Transport fee
+            var transportFee = 0;
+
+            if (transport == "yes") {
+
+                transportFee = 3000;
+
+            }
+
+            // Hostel fee
+            var hostelFee = 0;
+
+            if (hostel == "yes") {
+
+                hostelFee = 12000;
+
+            }
+
+            // Total before discount
+            var subtotal =
+                tuitionFee +
+                transportFee +
+                hostelFee;
+
+            // Scholarship discount
+            var discount = 0;
+
+            if (subtotal > 30000) {
+
+                discount = subtotal * 0.10;
+
+            }
+
+            // Late fine
+            var fine = 0;
+
+            if (lateDays > 10) {
+
+                fine = 2000;
+
+            }
+
+            // Final fee
+            var finalFee =
+                subtotal -
+                discount +
+                fine;
+
+            // Student category
+            var category = "";
+
+            if (finalFee >= 50000) {
+
+                category = "Premium Student";
+
+            }
+            else if (finalFee >= 25000) {
+
+                category = "Regular Student";
+
+            }
+            else {
+
+                category = "Basic Student";
+
+            }
+
+            // Display receipt
+            document.getElementById("result").innerHTML =
+
+                "<h3>Fee Receipt</h3>" +
+
+                "Student Name: " +
+                student + "<br><br>" +
+
+                "Tuition Fee: Rs. " +
+                tuitionFee + "<br><br>" +
+
+                "Transport Fee: Rs. " +
+                transportFee + "<br><br>" +
+
+                "Hostel Fee: Rs. " +
+                hostelFee + "<br><br>" +
+
+                "Subtotal: Rs. " +
+                subtotal + "<br><br>" +
+
+                "Scholarship Discount: Rs. " +
+                discount.toFixed(2) + "<br><br>" +
+
+                "Late Fine: Rs. " +
+                fine + "<br><br>" +
+
+                "<strong>Final Fee: Rs. " +
+                finalFee.toFixed(2) +
+                "</strong><br><br>" +
+
+                "Student Category: " +
+                category;
+
+        }
+
+    </script>
+
+</body>
+</html>
