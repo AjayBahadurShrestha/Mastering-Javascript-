@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inventory & Sales System</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background-color: #f1f3f6;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .box {
+            width: 650px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 0px 15px gray;
+        }
+
+        input, select, button {
+            width: 350px;
+            padding: 12px;
+            margin: 10px;
+            font-size: 15px;
+        }
+
+        button {
+            background-color: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 18px;
+        }
+
+        .warning {
+            color: red;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>Inventory & Sales Management</h2>
+
+        <input type="text"
+            id="customer"
+            placeholder="Customer Name">
+
+        <br>
+
+        <select id="product">
+
+            <option value="">Select Product</option>
+
+            <option value="laptop">
+                Laptop
+            </option>
+
+            <option value="mobile">
+                Mobile
+            </option>
+
+            <option value="headphones">
+                Headphones
+            </option>
+
+        </select>
+
+        <br>
+
+        <input type="number"
+            id="quantity"
+            placeholder="Enter Quantity">
+
+        <br>
+
+        <button onclick="generateInvoice()">
+            Generate Invoice
+        </button>
+
+        <div id="result"></div>
+
+    </div>
+
+    <script>
+
+        // Product data
+        var laptopPrice = 80000;
+        var mobilePrice = 30000;
+        var headphonesPrice = 5000;
+
+        var laptopStock = 10;
+        var mobileStock = 15;
+        var headphonesStock = 20;
+
+        function generateInvoice() {
+
+            var customer =
+                document.getElementById("customer").value;
+
+            var product =
+                document.getElementById("product").value;
+
+            var quantity =
+                Number(document.getElementById("quantity").value);
+
+            // Validation
+            if (customer == "" ||
+                product == "" ||
+                quantity <= 0) {
+
+                document.getElementById("result").innerHTML =
+                    "Please enter valid information";
+
+                return;
+            }
+
+            var price = 0;
+            var stock = 0;
+
+            // Product conditions
+            if (product == "laptop") {
+
+                price = laptopPrice;
+                stock = laptopStock;
+
+            }
+            else if (product == "mobile") {
+
+                price = mobilePrice;
+                stock = mobileStock;
+
+            }
+            else {
+
+                price = headphonesPrice;
+                stock = headphonesStock;
+
+            }
+
+            // Stock check
+            if (quantity > stock) {
+
+                document.getElementById("result").innerHTML =
+                    "Not enough stock available";
+
+                return;
+            }
+
+            // Product total
+            var subtotal =
+                price * quantity;
+
+            // Discount
+            var discount = 0;
+
+            if (subtotal > 100000) {
+
+                discount = subtotal * 0.15;
+
+            }
+            else if (subtotal > 50000) {
+
+                discount = subtotal * 0.10;
+
+            }
+
+            // After discount
+            var afterDiscount =
+                subtotal - discount;
+
+            // VAT
+            var vat =
+                afterDiscount * 0.13;
+
+            // Final amount
+            var finalAmount =
+                afterDiscount + vat;
+
+            // Remaining stock
+            var remainingStock =
+                stock - quantity;
+
+            // Low stock warning
+            var stockMessage = "";
+
+            if (remainingStock <= 3) {
+
+                stockMessage =
+                    "<div class='warning'>" +
+                    "Low Stock Warning!" +
+                    "</div>";
+
+            }
+
+            // Display invoice
+            document.getElementById("result").innerHTML =
+
+                "<h3>Sales Invoice</h3>" +
+
+                "Customer Name: " +
+                customer + "<br><br>" +
+
+                "Product: " +
+                product + "<br><br>" +
+
+                "Quantity: " +
+                quantity + "<br><br>" +
+
+                "Price Per Product: Rs. " +
+                price + "<br><br>" +
+
+                "Subtotal: Rs. " +
+                subtotal + "<br><br>" +
+
+                "Discount: Rs. " +
+                discount.toFixed(2) + "<br><br>" +
+
+                "VAT (13%): Rs. " +
+                vat.toFixed(2) + "<br><br>" +
+
+                "<strong>Final Amount: Rs. " +
+                finalAmount.toFixed(2) +
+                "</strong><br><br>" +
+
+                "Remaining Stock: " +
+                remainingStock +
+
+                "<br><br>" +
+
+                stockMessage;
+
+        }
+
+    </script>
+
+</body>
+</html>
