@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hospital Management System</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background-color: #eef2f7;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .box {
+            width: 650px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 0px 15px gray;
+        }
+
+        input, select, button {
+            width: 360px;
+            padding: 12px;
+            margin: 10px;
+            font-size: 15px;
+        }
+
+        button {
+            background-color: #222;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 18px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>Hospital Appointment & Billing</h2>
+
+        <input type="text"
+            id="patient"
+            placeholder="Patient Name">
+
+        <br>
+
+        <select id="doctor">
+
+            <option value="">
+                Select Doctor Type
+            </option>
+
+            <option value="general">
+                General Doctor
+            </option>
+
+            <option value="specialist">
+                Specialist
+            </option>
+
+            <option value="surgeon">
+                Surgeon
+            </option>
+
+        </select>
+
+        <br>
+
+        <input type="number"
+            id="days"
+            placeholder="Days Admitted">
+
+        <br>
+
+        <input type="number"
+            id="medicine"
+            placeholder="Medicine Cost">
+
+        <br>
+
+        <select id="emergency">
+
+            <option value="">
+                Emergency Service?
+            </option>
+
+            <option value="yes">
+                Yes
+            </option>
+
+            <option value="no">
+                No
+            </option>
+
+        </select>
+
+        <br>
+
+        <button onclick="generateBill()">
+            Generate Hospital Bill
+        </button>
+
+        <div id="result"></div>
+
+    </div>
+
+    <script>
+
+        function generateBill() {
+
+            var patient =
+                document.getElementById("patient").value;
+
+            var doctor =
+                document.getElementById("doctor").value;
+
+            var days =
+                Number(document.getElementById("days").value);
+
+            var medicine =
+                Number(document.getElementById("medicine").value);
+
+            var emergency =
+                document.getElementById("emergency").value;
+
+            // Validation
+            if (patient == "" ||
+                doctor == "" ||
+                days <= 0 ||
+                medicine < 0 ||
+                emergency == "") {
+
+                document.getElementById("result").innerHTML =
+                    "Please enter valid information";
+
+                return;
+            }
+
+            var doctorFee = 0;
+
+            // Doctor fee conditions
+            if (doctor == "general") {
+
+                doctorFee = 1000;
+
+            }
+            else if (doctor == "specialist") {
+
+                doctorFee = 3000;
+
+            }
+            else {
+
+                doctorFee = 7000;
+
+            }
+
+            // Room charge
+            var roomCharge =
+                days * 2500;
+
+            // Emergency charge
+            var emergencyCharge = 0;
+
+            if (emergency == "yes") {
+
+                emergencyCharge = 5000;
+
+            }
+
+            // Subtotal
+            var subtotal =
+                doctorFee +
+                roomCharge +
+                medicine +
+                emergencyCharge;
+
+            // Discount
+            var discount = 0;
+
+            if (subtotal > 50000) {
+
+                discount = subtotal * 0.10;
+
+            }
+
+            // After discount
+            var afterDiscount =
+                subtotal - discount;
+
+            // Tax
+            var tax =
+                afterDiscount * 0.13;
+
+            // Final amount
+            var finalBill =
+                afterDiscount + tax;
+
+            // Patient category
+            var category = "";
+
+            if (finalBill >= 80000) {
+
+                category = "Critical Care";
+
+            }
+            else if (finalBill >= 30000) {
+
+                category = "Special Treatment";
+
+            }
+            else {
+
+                category = "Regular Treatment";
+
+            }
+
+            // Display bill
+            document.getElementById("result").innerHTML =
+
+                "<h3>Hospital Bill</h3>" +
+
+                "Patient Name: " +
+                patient + "<br><br>" +
+
+                "Doctor Fee: Rs. " +
+                doctorFee + "<br><br>" +
+
+                "Room Charges: Rs. " +
+                roomCharge + "<br><br>" +
+
+                "Medicine Cost: Rs. " +
+                medicine + "<br><br>" +
+
+                "Emergency Charges: Rs. " +
+                emergencyCharge + "<br><br>" +
+
+                "Subtotal: Rs. " +
+                subtotal + "<br><br>" +
+
+                "Discount: Rs. " +
+                discount.toFixed(2) + "<br><br>" +
+
+                "Tax: Rs. " +
+                tax.toFixed(2) + "<br><br>" +
+
+                "<strong>Final Bill: Rs. " +
+                finalBill.toFixed(2) +
+                "</strong><br><br>" +
+
+                "Patient Category: " +
+                category;
+
+        }
+
+    </script>
+
+</body>
+</html>
