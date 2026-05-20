@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gaming Tournament System</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background-color: #111827;
+            color: white;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .box {
+            width: 600px;
+            margin: auto;
+            background: #1f2937;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 0px 15px black;
+        }
+
+        input, select, button {
+            width: 320px;
+            padding: 12px;
+            margin: 10px;
+            font-size: 15px;
+            border-radius: 6px;
+            border: none;
+        }
+
+        button {
+            background-color: #22c55e;
+            color: white;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 18px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>Gaming Tournament Registration</h2>
+
+        <input type="text"
+            id="player"
+            placeholder="Enter Gamer Name">
+
+        <br>
+
+        <select id="game">
+
+            <option value="">
+                Select Game
+            </option>
+
+            <option value="pubg">
+                PUBG
+            </option>
+
+            <option value="freefire">
+                Free Fire
+            </option>
+
+            <option value="valorant">
+                Valorant
+            </option>
+
+        </select>
+
+        <br>
+
+        <select id="team">
+
+            <option value="">
+                Select Team Mode
+            </option>
+
+            <option value="solo">
+                Solo
+            </option>
+
+            <option value="squad">
+                Squad
+            </option>
+
+        </select>
+
+        <br>
+
+        <select id="vip">
+
+            <option value="">
+                VIP Pass Required?
+            </option>
+
+            <option value="yes">
+                Yes
+            </option>
+
+            <option value="no">
+                No
+            </option>
+
+        </select>
+
+        <br>
+
+        <button onclick="registerTournament()">
+            Register Now
+        </button>
+
+        <div id="result"></div>
+
+    </div>
+
+    <script>
+
+        function registerTournament() {
+
+            var player =
+                document.getElementById("player").value;
+
+            var game =
+                document.getElementById("game").value;
+
+            var team =
+                document.getElementById("team").value;
+
+            var vip =
+                document.getElementById("vip").value;
+
+            // Validation
+            if (player == "" ||
+                game == "" ||
+                team == "" ||
+                vip == "") {
+
+                document.getElementById("result").innerHTML =
+                    "Please fill all fields";
+
+                return;
+            }
+
+            var entryFee = 0;
+
+            // Game fee conditions
+            if (game == "pubg") {
+
+                entryFee = 2000;
+
+            }
+            else if (game == "freefire") {
+
+                entryFee = 1500;
+
+            }
+            else {
+
+                entryFee = 3000;
+
+            }
+
+            // Squad mode
+            if (team == "squad") {
+
+                entryFee = entryFee * 4;
+
+            }
+
+            // VIP charge
+            var vipCharge = 0;
+
+            if (vip == "yes") {
+
+                vipCharge = 1000;
+
+            }
+
+            // Subtotal
+            var subtotal =
+                entryFee + vipCharge;
+
+            // Discount
+            var discount = 0;
+
+            if (subtotal > 8000) {
+
+                discount = subtotal * 0.20;
+
+            }
+
+            // Final amount
+            var finalAmount =
+                subtotal - discount;
+
+            // Tournament level
+            var level = "";
+
+            if (finalAmount >= 10000) {
+
+                level = "Professional Tournament";
+
+            }
+            else if (finalAmount >= 5000) {
+
+                level = "Competitive Tournament";
+
+            }
+            else {
+
+                level = "Casual Tournament";
+
+            }
+
+            // Display registration
+            document.getElementById("result").innerHTML =
+
+                "<h3>Tournament Registration</h3>" +
+
+                "Player Name: " +
+                player + "<br><br>" +
+
+                "Selected Game: " +
+                game + "<br><br>" +
+
+                "Team Mode: " +
+                team + "<br><br>" +
+
+                "Entry Fee: Rs. " +
+                entryFee + "<br><br>" +
+
+                "VIP Charge: Rs. " +
+                vipCharge + "<br><br>" +
+
+                "Discount: Rs. " +
+                discount.toFixed(2) + "<br><br>" +
+
+                "<strong>Final Amount: Rs. " +
+                finalAmount.toFixed(2) +
+                "</strong><br><br>" +
+
+                "Tournament Type: " +
+                level;
+
+        }
+
+    </script>
+
+</body>
+</html>
