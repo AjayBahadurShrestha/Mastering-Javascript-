@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Space Mission Control</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background-color: #050816;
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .box {
+            width: 700px;
+            margin: auto;
+            background: #111827;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 20px cyan;
+        }
+
+        input, select, button {
+            width: 350px;
+            padding: 12px;
+            margin: 10px;
+            font-size: 15px;
+            border-radius: 8px;
+            border: none;
+        }
+
+        button {
+            background-color: cyan;
+            color: black;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 18px;
+        }
+
+        .safe {
+            color: lightgreen;
+        }
+
+        .danger {
+            color: red;
+        }
+
+        .warning {
+            color: orange;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>🚀 Space Mission Control System</h2>
+
+        <input type="text"
+            id="astronaut"
+            placeholder="Astronaut Name">
+
+        <br>
+
+        <select id="planet">
+
+            <option value="">
+                Select Destination
+            </option>
+
+            <option value="moon">
+                Moon
+            </option>
+
+            <option value="mars">
+                Mars
+            </option>
+
+            <option value="jupiter">
+                Jupiter
+            </option>
+
+        </select>
+
+        <br>
+
+        <select id="ship">
+
+            <option value="">
+                Select Spacecraft
+            </option>
+
+            <option value="basic">
+                Basic Shuttle
+            </option>
+
+            <option value="advanced">
+                Advanced Shuttle
+            </option>
+
+            <option value="ai">
+                AI Spacecraft
+            </option>
+
+        </select>
+
+        <br>
+
+        <input type="number"
+            id="fuel"
+            placeholder="Fuel Units">
+
+        <br>
+
+        <select id="emergency">
+
+            <option value="">
+                Emergency Support?
+            </option>
+
+            <option value="yes">
+                Yes
+            </option>
+
+            <option value="no">
+                No
+            </option>
+
+        </select>
+
+        <br>
+
+        <button onclick="launchMission()">
+            Launch Mission
+        </button>
+
+        <div id="result"></div>
+
+    </div>
+
+    <script>
+
+        function launchMission() {
+
+            var astronaut =
+                document.getElementById("astronaut").value;
+
+            var planet =
+                document.getElementById("planet").value;
+
+            var ship =
+                document.getElementById("ship").value;
+
+            var fuel =
+                Number(document.getElementById("fuel").value);
+
+            var emergency =
+                document.getElementById("emergency").value;
+
+            // Validation
+            if (astronaut == "" ||
+                planet == "" ||
+                ship == "" ||
+                fuel <= 0 ||
+                emergency == "") {
+
+                document.getElementById("result").innerHTML =
+                    "Please enter valid mission data";
+
+                return;
+            }
+
+            var missionCost = 0;
+
+            // Planet mission cost
+            if (planet == "moon") {
+
+                missionCost = 500000;
+
+            }
+            else if (planet == "mars") {
+
+                missionCost = 2000000;
+
+            }
+            else {
+
+                missionCost = 5000000;
+
+            }
+
+            // Spacecraft multiplier
+            if (ship == "advanced") {
+
+                missionCost = missionCost * 1.5;
+
+            }
+            else if (ship == "ai") {
+
+                missionCost = missionCost * 2;
+
+            }
+
+            // Emergency support
+            var emergencyCharge = 0;
+
+            if (emergency == "yes") {
+
+                emergencyCharge = 300000;
+
+            }
+
+            // Total cost
+            var totalCost =
+                missionCost + emergencyCharge;
+
+            // Fuel status
+            var fuelStatus = "";
+            var fuelClass = "";
+
+            if (fuel < 500) {
+
+                fuelStatus = "Critical Fuel Level";
+                fuelClass = "danger";
+
+            }
+            else if (fuel <= 1000) {
+
+                fuelStatus = "Medium Fuel Level";
+                fuelClass = "warning";
+
+            }
+            else {
+
+                fuelStatus = "Safe Fuel Level";
+                fuelClass = "safe";
+
+            }
+
+            // Mission success chance
+            var successChance = 0;
+
+            if (fuel > 1500 &&
+                ship == "ai") {
+
+                successChance = 95;
+
+            }
+            else if (fuel > 1000) {
+
+                successChance = 80;
+
+            }
+            else {
+
+                successChance = 55;
+
+            }
+
+            // Mission risk
+            var risk = "";
+
+            if (successChance >= 90) {
+
+                risk = "Low Risk Mission";
+
+            }
+            else if (successChance >= 70) {
+
+                risk = "Medium Risk Mission";
+
+            }
+            else {
+
+                risk = "High Risk Mission";
+
+            }
+
+            // Output
+            document.getElementById("result").innerHTML =
+
+                "<h3>Mission Report</h3>" +
+
+                "Astronaut: " +
+                astronaut + "<br><br>" +
+
+                "Destination: " +
+                planet + "<br><br>" +
+
+                "Spacecraft: " +
+                ship + "<br><br>" +
+
+                "Mission Cost: Rs. " +
+                missionCost.toFixed(2) + "<br><br>" +
+
+                "Emergency Charges: Rs. " +
+                emergencyCharge.toFixed(2) + "<br><br>" +
+
+                "<span class='" + fuelClass + "'>" +
+                fuelStatus +
+                "</span><br><br>" +
+
+                "Mission Success Chance: " +
+                successChance + "%<br><br>" +
+
+                "Risk Analysis: " +
+                risk + "<br><br>" +
+
+                "<strong>Total Mission Budget: Rs. " +
+                totalCost.toFixed(2) +
+                "</strong>";
+
+        }
+
+    </script>
+
+</body>
+</html>
