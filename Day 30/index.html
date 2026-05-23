@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Robot Factory System</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background-color: #0b1120;
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .box {
+            width: 720px;
+            margin: auto;
+            background: #111827;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 20px #00ffff;
+        }
+
+        input, select, button {
+            width: 360px;
+            padding: 12px;
+            margin: 10px;
+            font-size: 15px;
+            border-radius: 8px;
+            border: none;
+        }
+
+        button {
+            background-color: #00ffff;
+            color: black;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 18px;
+        }
+
+        .safe {
+            color: lightgreen;
+        }
+
+        .warning {
+            color: orange;
+        }
+
+        .danger {
+            color: red;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>🤖 AI Robot Factory Control</h2>
+
+        <input type="text"
+            id="factory"
+            placeholder="Factory Name">
+
+        <br>
+
+        <select id="robot">
+
+            <option value="">
+                Select Robot Type
+            </option>
+
+            <option value="worker">
+                Worker Robot
+            </option>
+
+            <option value="security">
+                Security Robot
+            </option>
+
+            <option value="medical">
+                Medical Robot
+            </option>
+
+        </select>
+
+        <br>
+
+        <input type="number"
+            id="quantity"
+            placeholder="Production Quantity">
+
+        <br>
+
+        <select id="ai">
+
+            <option value="">
+                Select AI Level
+            </option>
+
+            <option value="basic">
+                Basic AI
+            </option>
+
+            <option value="smart">
+                Smart AI
+            </option>
+
+            <option value="quantum">
+                Quantum AI
+            </option>
+
+        </select>
+
+        <br>
+
+        <input type="number"
+            id="power"
+            placeholder="Power Usage Units">
+
+        <br>
+
+        <button onclick="generateFactoryReport()">
+            Generate Report
+        </button>
+
+        <div id="result"></div>
+
+    </div>
+
+    <script>
+
+        function generateFactoryReport() {
+
+            var factory =
+                document.getElementById("factory").value;
+
+            var robot =
+                document.getElementById("robot").value;
+
+            var quantity =
+                Number(document.getElementById("quantity").value);
+
+            var ai =
+                document.getElementById("ai").value;
+
+            var power =
+                Number(document.getElementById("power").value);
+
+            // Validation
+            if (factory == "" ||
+                robot == "" ||
+                quantity <= 0 ||
+                ai == "" ||
+                power <= 0) {
+
+                document.getElementById("result").innerHTML =
+                    "Please enter valid factory data";
+
+                return;
+            }
+
+            var robotCost = 0;
+
+            // Robot cost
+            if (robot == "worker") {
+
+                robotCost = 50000;
+
+            }
+            else if (robot == "security") {
+
+                robotCost = 120000;
+
+            }
+            else {
+
+                robotCost = 250000;
+
+            }
+
+            // Production cost
+            var productionCost =
+                robotCost * quantity;
+
+            // AI multiplier
+            if (ai == "smart") {
+
+                productionCost =
+                    productionCost * 1.5;
+
+            }
+            else if (ai == "quantum") {
+
+                productionCost =
+                    productionCost * 2;
+
+            }
+
+            // Power cost
+            var powerCost =
+                power * 15;
+
+            // Final cost
+            var totalCost =
+                productionCost + powerCost;
+
+            // Heat analysis
+            var heatStatus = "";
+            var heatClass = "";
+
+            if (power > 5000) {
+
+                heatStatus = "Overheating Warning";
+                heatClass = "danger";
+
+            }
+            else if (power > 3000) {
+
+                heatStatus = "High Temperature";
+                heatClass = "warning";
+
+            }
+            else {
+
+                heatStatus = "Temperature Stable";
+                heatClass = "safe";
+
+            }
+
+            // Efficiency calculation
+            var efficiency = 0;
+
+            if (ai == "quantum" &&
+                power < 4000) {
+
+                efficiency = 95;
+
+            }
+            else if (ai == "smart") {
+
+                efficiency = 80;
+
+            }
+            else {
+
+                efficiency = 65;
+
+            }
+
+            // Maintenance status
+            var maintenance = "";
+
+            if (efficiency < 70 ||
+                power > 5000) {
+
+                maintenance =
+                    "Maintenance Required";
+
+            }
+            else {
+
+                maintenance =
+                    "Factory Stable";
+
+            }
+
+            // Output report
+            document.getElementById("result").innerHTML =
+
+                "<h3>Factory Production Report</h3>" +
+
+                "Factory Name: " +
+                factory + "<br><br>" +
+
+                "Robot Type: " +
+                robot + "<br><br>" +
+
+                "Production Quantity: " +
+                quantity + "<br><br>" +
+
+                "AI Level: " +
+                ai + "<br><br>" +
+
+                "Production Cost: Rs. " +
+                productionCost.toFixed(2) + "<br><br>" +
+
+                "Power Cost: Rs. " +
+                powerCost.toFixed(2) + "<br><br>" +
+
+                "<span class='" + heatClass + "'>" +
+                heatStatus +
+                "</span><br><br>" +
+
+                "Factory Efficiency: " +
+                efficiency + "%<br><br>" +
+
+                "Maintenance Status: " +
+                maintenance + "<br><br>" +
+
+                "<strong>Total Factory Cost: Rs. " +
+                totalCost.toFixed(2) +
+                "</strong>";
+
+        }
+
+    </script>
+
+</body>
+</html>
