@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cyber Security System</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background-color: #081018;
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .box {
+            width: 750px;
+            margin: auto;
+            background: #111827;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 20px red;
+        }
+
+        input, select, button {
+            width: 380px;
+            padding: 12px;
+            margin: 10px;
+            font-size: 15px;
+            border-radius: 8px;
+            border: none;
+        }
+
+        button {
+            background-color: red;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 18px;
+        }
+
+        .safe {
+            color: lightgreen;
+        }
+
+        .warning {
+            color: orange;
+        }
+
+        .danger {
+            color: red;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>🌐 Cyber Security Threat Detection</h2>
+
+        <input type="text"
+            id="server"
+            placeholder="Server Name">
+
+        <br>
+
+        <select id="attack">
+
+            <option value="">
+                Select Attack Type
+            </option>
+
+            <option value="malware">
+                Malware Attack
+            </option>
+
+            <option value="ddos">
+                DDoS Attack
+            </option>
+
+            <option value="ransomware">
+                Ransomware Attack
+            </option>
+
+        </select>
+
+        <br>
+
+        <input type="number"
+            id="login"
+            placeholder="Failed Login Attempts">
+
+        <br>
+
+        <select id="firewall">
+
+            <option value="">
+                Firewall Status
+            </option>
+
+            <option value="enabled">
+                Enabled
+            </option>
+
+            <option value="disabled">
+                Disabled
+            </option>
+
+        </select>
+
+        <br>
+
+        <input type="number"
+            id="traffic"
+            placeholder="Suspicious Traffic Amount">
+
+        <br>
+
+        <button onclick="analyzeThreat()">
+            Analyze Threat
+        </button>
+
+        <div id="result"></div>
+
+    </div>
+
+    <script>
+
+        function analyzeThreat() {
+
+            var server =
+                document.getElementById("server").value;
+
+            var attack =
+                document.getElementById("attack").value;
+
+            var login =
+                Number(document.getElementById("login").value);
+
+            var firewall =
+                document.getElementById("firewall").value;
+
+            var traffic =
+                Number(document.getElementById("traffic").value);
+
+            // Validation
+            if (server == "" ||
+                attack == "" ||
+                login < 0 ||
+                firewall == "" ||
+                traffic < 0) {
+
+                document.getElementById("result").innerHTML =
+                    "Please enter valid security information";
+
+                return;
+            }
+
+            var threatScore = 0;
+
+            // Attack severity
+            if (attack == "malware") {
+
+                threatScore = 30;
+
+            }
+            else if (attack == "ddos") {
+
+                threatScore = 60;
+
+            }
+            else {
+
+                threatScore = 90;
+
+            }
+
+            // Failed login impact
+            threatScore =
+                threatScore + (login * 2);
+
+            // Suspicious traffic impact
+            threatScore =
+                threatScore + ((traffic / 100) * 5);
+
+            // Firewall check
+            if (firewall == "disabled") {
+
+                threatScore =
+                    threatScore + 50;
+
+            }
+
+            // Risk analysis
+            var risk = "";
+            var riskClass = "";
+
+            if (threatScore >= 150) {
+
+                risk = "Critical Threat";
+                riskClass = "danger";
+
+            }
+            else if (threatScore >= 80) {
+
+                risk = "Medium Threat";
+                riskClass = "warning";
+
+            }
+            else {
+
+                risk = "Low Threat";
+                riskClass = "safe";
+
+            }
+
+            // Emergency lockdown
+            var lockdown = "";
+
+            if (threatScore >= 180) {
+
+                lockdown =
+                    "Emergency Lockdown Activated";
+
+            }
+            else {
+
+                lockdown =
+                    "System Operational";
+
+            }
+
+            // Recommendation
+            var recommendation = "";
+
+            if (threatScore >= 150) {
+
+                recommendation =
+                    "Disconnect server immediately";
+
+            }
+            else if (threatScore >= 80) {
+
+                recommendation =
+                    "Increase monitoring and security";
+
+            }
+            else {
+
+                recommendation =
+                    "System secure";
+
+            }
+
+            // Display report
+            document.getElementById("result").innerHTML =
+
+                "<h3>Security Threat Report</h3>" +
+
+                "Server Name: " +
+                server + "<br><br>" +
+
+                "Attack Type: " +
+                attack + "<br><br>" +
+
+                "Threat Score: " +
+                threatScore.toFixed(2) + "<br><br>" +
+
+                "<span class='" + riskClass + "'>" +
+                risk +
+                "</span><br><br>" +
+
+                "Firewall Status: " +
+                firewall + "<br><br>" +
+
+                "Security Status: " +
+                lockdown + "<br><br>" +
+
+                "Recommendation: " +
+                recommendation;
+
+        }
+
+    </script>
+
+</body>
+</html>
