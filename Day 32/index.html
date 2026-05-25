@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nuclear Reactor Monitoring</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background-color: #050505;
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .box {
+            width: 760px;
+            margin: auto;
+            background: #111;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 25px red;
+        }
+
+        input, select, button {
+            width: 380px;
+            padding: 12px;
+            margin: 10px;
+            font-size: 15px;
+            border-radius: 8px;
+            border: none;
+        }
+
+        button {
+            background-color: red;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 18px;
+        }
+
+        .safe {
+            color: lightgreen;
+        }
+
+        .warning {
+            color: orange;
+        }
+
+        .danger {
+            color: red;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>☢️ Nuclear Reactor Monitoring System</h2>
+
+        <input type="text"
+            id="reactor"
+            placeholder="Reactor Name">
+
+        <br>
+
+        <input type="number"
+            id="temperature"
+            placeholder="Temperature (°C)">
+
+        <br>
+
+        <input type="number"
+            id="radiation"
+            placeholder="Radiation Level">
+
+        <br>
+
+        <select id="cooling">
+
+            <option value="">
+                Cooling System Status
+            </option>
+
+            <option value="on">
+                ON
+            </option>
+
+            <option value="off">
+                OFF
+            </option>
+
+        </select>
+
+        <br>
+
+        <input type="number"
+            id="pressure"
+            placeholder="Pressure Level (PSI)">
+
+        <br>
+
+        <button onclick="monitorReactor()">
+            Analyze Reactor
+        </button>
+
+        <div id="result"></div>
+
+    </div>
+
+    <script>
+
+        function monitorReactor() {
+
+            var reactor =
+                document.getElementById("reactor").value;
+
+            var temperature =
+                Number(document.getElementById("temperature").value);
+
+            var radiation =
+                Number(document.getElementById("radiation").value);
+
+            var cooling =
+                document.getElementById("cooling").value;
+
+            var pressure =
+                Number(document.getElementById("pressure").value);
+
+            // Validation
+            if (reactor == "" ||
+                temperature <= 0 ||
+                radiation < 0 ||
+                cooling == "" ||
+                pressure <= 0) {
+
+                document.getElementById("result").innerHTML =
+                    "Please enter valid reactor information";
+
+                return;
+            }
+
+            var dangerScore = 0;
+
+            // Temperature analysis
+            if (temperature > 1200) {
+
+                dangerScore =
+                    dangerScore + 120;
+
+            }
+            else if (temperature > 800) {
+
+                dangerScore =
+                    dangerScore + 70;
+
+            }
+
+            // Radiation analysis
+            if (radiation > 1000) {
+
+                dangerScore =
+                    dangerScore + 150;
+
+            }
+            else if (radiation > 500) {
+
+                dangerScore =
+                    dangerScore + 80;
+
+            }
+
+            // Cooling system
+            if (cooling == "off") {
+
+                dangerScore =
+                    dangerScore + 100;
+
+            }
+
+            // Pressure analysis
+            if (pressure > 1000) {
+
+                dangerScore =
+                    dangerScore + 120;
+
+            }
+            else if (pressure > 700) {
+
+                dangerScore =
+                    dangerScore + 60;
+
+            }
+
+            // Reactor risk level
+            var risk = "";
+            var riskClass = "";
+
+            if (dangerScore >= 300) {
+
+                risk = "EXTREME MELTDOWN RISK";
+                riskClass = "danger";
+
+            }
+            else if (dangerScore >= 180) {
+
+                risk = "HIGH DANGER";
+
+                riskClass = "warning";
+
+            }
+            else {
+
+                risk = "STABLE REACTOR";
+
+                riskClass = "safe";
+
+            }
+
+            // Emergency shutdown
+            var shutdown = "";
+
+            if (dangerScore >= 250) {
+
+                shutdown =
+                    "Emergency Shutdown Activated";
+
+            }
+            else {
+
+                shutdown =
+                    "Reactor Running Normally";
+
+            }
+
+            // Explosion chance
+            var explosionChance = 0;
+
+            if (dangerScore >= 300) {
+
+                explosionChance = 95;
+
+            }
+            else if (dangerScore >= 180) {
+
+                explosionChance = 60;
+
+            }
+            else {
+
+                explosionChance = 10;
+
+            }
+
+            // Final report
+            document.getElementById("result").innerHTML =
+
+                "<h3>Reactor Analysis Report</h3>" +
+
+                "Reactor Name: " +
+                reactor + "<br><br>" +
+
+                "Temperature: " +
+                temperature + " °C<br><br>" +
+
+                "Radiation Level: " +
+                radiation + "<br><br>" +
+
+                "Pressure Level: " +
+                pressure + " PSI<br><br>" +
+
+                "<span class='" + riskClass + "'>" +
+                risk +
+                "</span><br><br>" +
+
+                "Cooling System: " +
+                cooling + "<br><br>" +
+
+                "Danger Score: " +
+                dangerScore + "<br><br>" +
+
+                "Emergency Status: " +
+                shutdown + "<br><br>" +
+
+                "Explosion Probability: " +
+                explosionChance + "%";
+
+        }
+
+    </script>
+
+</body>
+</html>
