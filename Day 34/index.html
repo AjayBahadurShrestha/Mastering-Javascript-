@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Traffic Management</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background-color: #eef2f7;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .box {
+            width: 760px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px gray;
+        }
+
+        input, select, button {
+            width: 380px;
+            padding: 12px;
+            margin: 10px;
+            font-size: 15px;
+            border-radius: 8px;
+        }
+
+        button {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 18px;
+        }
+
+        .safe {
+            color: green;
+        }
+
+        .warning {
+            color: orange;
+        }
+
+        .danger {
+            color: red;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>🚦 Smart Traffic Management System</h2>
+
+        <input type="text"
+            id="area"
+            placeholder="City Area Name">
+
+        <br>
+
+        <input type="number"
+            id="cars"
+            placeholder="Number of Cars">
+
+        <br>
+
+        <input type="number"
+            id="bikes"
+            placeholder="Number of Bikes">
+
+        <br>
+
+        <input type="number"
+            id="trucks"
+            placeholder="Number of Trucks">
+
+        <br>
+
+        <select id="emergency">
+
+            <option value="">
+                Emergency Vehicle Present?
+            </option>
+
+            <option value="yes">
+                Yes
+            </option>
+
+            <option value="no">
+                No
+            </option>
+
+        </select>
+
+        <br>
+
+        <select id="signal">
+
+            <option value="">
+                Traffic Signal Status
+            </option>
+
+            <option value="on">
+                Working
+            </option>
+
+            <option value="off">
+                Not Working
+            </option>
+
+        </select>
+
+        <br>
+
+        <button onclick="analyzeTraffic()">
+            Analyze Traffic
+        </button>
+
+        <div id="result"></div>
+
+    </div>
+
+    <script>
+
+        function analyzeTraffic() {
+
+            var area =
+                document.getElementById("area").value;
+
+            var cars =
+                Number(document.getElementById("cars").value);
+
+            var bikes =
+                Number(document.getElementById("bikes").value);
+
+            var trucks =
+                Number(document.getElementById("trucks").value);
+
+            var emergency =
+                document.getElementById("emergency").value;
+
+            var signal =
+                document.getElementById("signal").value;
+
+            // Validation
+            if (area == "" ||
+                cars < 0 ||
+                bikes < 0 ||
+                trucks < 0 ||
+                emergency == "" ||
+                signal == "") {
+
+                document.getElementById("result").innerHTML =
+                    "Please enter valid traffic information";
+
+                return;
+            }
+
+            // Traffic density calculation
+            var density =
+                (cars * 2) +
+                (bikes * 1) +
+                (trucks * 5);
+
+            // Congestion analysis
+            var congestion = "";
+            var congestionClass = "";
+
+            if (density > 400) {
+
+                congestion = "Critical Traffic";
+                congestionClass = "danger";
+
+            }
+            else if (density > 200) {
+
+                congestion = "Heavy Traffic";
+                congestionClass = "warning";
+
+            }
+            else {
+
+                congestion = "Traffic Normal";
+                congestionClass = "safe";
+
+            }
+
+            // Signal timing
+            var signalTime = 30;
+
+            if (density > 400) {
+
+                signalTime = 120;
+
+            }
+            else if (density > 200) {
+
+                signalTime = 80;
+
+            }
+
+            // Emergency vehicle priority
+            if (emergency == "yes") {
+
+                signalTime =
+                    signalTime + 40;
+
+            }
+
+            // Fine calculation
+            var fine = 0;
+
+            if (signal == "off" &&
+                density > 200) {
+
+                fine = 5000;
+
+            }
+
+            // Recommendation
+            var recommendation = "";
+
+            if (density > 400) {
+
+                recommendation =
+                    "Deploy additional traffic police";
+
+            }
+            else if (density > 200) {
+
+                recommendation =
+                    "Activate alternate traffic routes";
+
+            }
+            else {
+
+                recommendation =
+                    "Traffic flow stable";
+
+            }
+
+            // Display report
+            document.getElementById("result").innerHTML =
+
+                "<h3>Traffic Analysis Report</h3>" +
+
+                "Area Name: " +
+                area + "<br><br>" +
+
+                "Cars: " +
+                cars + "<br><br>" +
+
+                "Bikes: " +
+                bikes + "<br><br>" +
+
+                "Trucks: " +
+                trucks + "<br><br>" +
+
+                "Traffic Density Score: " +
+                density + "<br><br>" +
+
+                "<span class='" + congestionClass + "'>" +
+                congestion +
+                "</span><br><br>" +
+
+                "Signal Timing: " +
+                signalTime + " seconds<br><br>" +
+
+                "Emergency Vehicle: " +
+                emergency + "<br><br>" +
+
+                "Traffic Fine: Rs. " +
+                fine + "<br><br>" +
+
+                "Recommendation: " +
+                recommendation;
+
+        }
+
+    </script>
+
+</body>
+</html>
