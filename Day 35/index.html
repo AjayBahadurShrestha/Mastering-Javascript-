@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Airline Reservation System</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background-color: #edf2f7;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .box {
+            width: 780px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px gray;
+        }
+
+        input, select, button {
+            width: 380px;
+            padding: 12px;
+            margin: 10px;
+            font-size: 15px;
+            border-radius: 8px;
+        }
+
+        button {
+            background-color: #1d4ed8;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 18px;
+        }
+
+        .safe {
+            color: green;
+        }
+
+        .warning {
+            color: orange;
+        }
+
+        .danger {
+            color: red;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>✈️ Airline Reservation & Flight Control</h2>
+
+        <input type="text"
+            id="passenger"
+            placeholder="Passenger Name">
+
+        <br>
+
+        <select id="destination">
+
+            <option value="">
+                Select Destination
+            </option>
+
+            <option value="dubai">
+                Dubai
+            </option>
+
+            <option value="london">
+                London
+            </option>
+
+            <option value="tokyo">
+                Tokyo
+            </option>
+
+        </select>
+
+        <br>
+
+        <select id="seat">
+
+            <option value="">
+                Select Seat Class
+            </option>
+
+            <option value="economy">
+                Economy
+            </option>
+
+            <option value="business">
+                Business
+            </option>
+
+            <option value="first">
+                First Class
+            </option>
+
+        </select>
+
+        <br>
+
+        <input type="number"
+            id="luggage"
+            placeholder="Luggage Weight (kg)">
+
+        <br>
+
+        <select id="weather">
+
+            <option value="">
+                Weather Condition
+            </option>
+
+            <option value="clear">
+                Clear Weather
+            </option>
+
+            <option value="rain">
+                Heavy Rain
+            </option>
+
+            <option value="storm">
+                Storm
+            </option>
+
+        </select>
+
+        <br>
+
+        <select id="vip">
+
+            <option value="">
+                VIP Boarding?
+            </option>
+
+            <option value="yes">
+                Yes
+            </option>
+
+            <option value="no">
+                No
+            </option>
+
+        </select>
+
+        <br>
+
+        <button onclick="generateTicket()">
+            Generate Flight Ticket
+        </button>
+
+        <div id="result"></div>
+
+    </div>
+
+    <script>
+
+        function generateTicket() {
+
+            var passenger =
+                document.getElementById("passenger").value;
+
+            var destination =
+                document.getElementById("destination").value;
+
+            var seat =
+                document.getElementById("seat").value;
+
+            var luggage =
+                Number(document.getElementById("luggage").value);
+
+            var weather =
+                document.getElementById("weather").value;
+
+            var vip =
+                document.getElementById("vip").value;
+
+            // Validation
+            if (passenger == "" ||
+                destination == "" ||
+                seat == "" ||
+                luggage < 0 ||
+                weather == "" ||
+                vip == "") {
+
+                document.getElementById("result").innerHTML =
+                    "Please enter valid flight details";
+
+                return;
+            }
+
+            var ticketPrice = 0;
+
+            // Destination price
+            if (destination == "dubai") {
+
+                ticketPrice = 45000;
+
+            }
+            else if (destination == "london") {
+
+                ticketPrice = 120000;
+
+            }
+            else {
+
+                ticketPrice = 180000;
+
+            }
+
+            // Seat class multiplier
+            if (seat == "business") {
+
+                ticketPrice =
+                    ticketPrice * 1.8;
+
+            }
+            else if (seat == "first") {
+
+                ticketPrice =
+                    ticketPrice * 2.5;
+
+            }
+
+            // Luggage charge
+            var luggageCharge = 0;
+
+            if (luggage > 20) {
+
+                luggageCharge =
+                    (luggage - 20) * 1000;
+
+            }
+
+            // Weather risk
+            var flightStatus = "";
+            var statusClass = "";
+
+            if (weather == "storm") {
+
+                flightStatus = "High Flight Delay Risk";
+                statusClass = "danger";
+
+            }
+            else if (weather == "rain") {
+
+                flightStatus = "Possible Delay";
+                statusClass = "warning";
+
+            }
+            else {
+
+                flightStatus = "Flight On Time";
+                statusClass = "safe";
+
+            }
+
+            // VIP boarding
+            var boarding = "";
+
+            if (vip == "yes") {
+
+                boarding =
+                    "Priority VIP Boarding Enabled";
+
+            }
+            else {
+
+                boarding =
+                    "Standard Boarding";
+
+            }
+
+            // Security level
+            var security = "";
+
+            if (luggage > 40) {
+
+                security =
+                    "Extra Security Check Required";
+
+            }
+            else {
+
+                security =
+                    "Security Cleared";
+
+            }
+
+            // Final amount
+            var finalAmount =
+                ticketPrice + luggageCharge;
+
+            // Display ticket
+            document.getElementById("result").innerHTML =
+
+                "<h3>Flight Ticket Summary</h3>" +
+
+                "Passenger Name: " +
+                passenger + "<br><br>" +
+
+                "Destination: " +
+                destination + "<br><br>" +
+
+                "Seat Class: " +
+                seat + "<br><br>" +
+
+                "Base Ticket Price: Rs. " +
+                ticketPrice.toFixed(2) + "<br><br>" +
+
+                "Luggage Charge: Rs. " +
+                luggageCharge.toFixed(2) + "<br><br>" +
+
+                "<span class='" + statusClass + "'>" +
+                flightStatus +
+                "</span><br><br>" +
+
+                "Boarding Status: " +
+                boarding + "<br><br>" +
+
+                "Security Status: " +
+                security + "<br><br>" +
+
+                "<strong>Final Ticket Cost: Rs. " +
+                finalAmount.toFixed(2) +
+                "</strong>";
+
+        }
+
+    </script>
+
+</body>
+</html>
