@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Power Grid System</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background-color: #eef3f8;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .box {
+            width: 780px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px gray;
+        }
+
+        input, select, button {
+            width: 390px;
+            padding: 12px;
+            margin: 10px;
+            font-size: 15px;
+            border-radius: 8px;
+        }
+
+        button {
+            background-color: #0f766e;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 18px;
+        }
+
+        .safe {
+            color: green;
+        }
+
+        .warning {
+            color: orange;
+        }
+
+        .danger {
+            color: red;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>🏭 Smart Power Grid Management</h2>
+
+        <input type="text"
+            id="city"
+            placeholder="City Name">
+
+        <br>
+
+        <input type="number"
+            id="houses"
+            placeholder="Total Houses">
+
+        <br>
+
+        <input type="number"
+            id="factories"
+            placeholder="Factory Count">
+
+        <br>
+
+        <input type="number"
+            id="usage"
+            placeholder="Current Power Usage">
+
+        <br>
+
+        <select id="renewable">
+
+            <option value="">
+                Renewable Energy Active?
+            </option>
+
+            <option value="yes">
+                Yes
+            </option>
+
+            <option value="no">
+                No
+            </option>
+
+        </select>
+
+        <br>
+
+        <select id="backup">
+
+            <option value="">
+                Emergency Backup Active?
+            </option>
+
+            <option value="yes">
+                Yes
+            </option>
+
+            <option value="no">
+                No
+            </option>
+
+        </select>
+
+        <br>
+
+        <button onclick="analyzeGrid()">
+            Analyze Power Grid
+        </button>
+
+        <div id="result"></div>
+
+    </div>
+
+    <script>
+
+        function analyzeGrid() {
+
+            var city =
+                document.getElementById("city").value;
+
+            var houses =
+                Number(document.getElementById("houses").value);
+
+            var factories =
+                Number(document.getElementById("factories").value);
+
+            var usage =
+                Number(document.getElementById("usage").value);
+
+            var renewable =
+                document.getElementById("renewable").value;
+
+            var backup =
+                document.getElementById("backup").value;
+
+            // Validation
+            if (city == "" ||
+                houses < 0 ||
+                factories < 0 ||
+                usage <= 0 ||
+                renewable == "" ||
+                backup == "") {
+
+                document.getElementById("result").innerHTML =
+                    "Please enter valid power grid information";
+
+                return;
+            }
+
+            // Power demand
+            var demand =
+                (houses * 5) +
+                (factories * 50) +
+                usage;
+
+            // Renewable energy reduction
+            if (renewable == "yes") {
+
+                demand =
+                    demand - (demand * 0.20);
+
+            }
+
+            // Risk analysis
+            var gridStatus = "";
+            var statusClass = "";
+
+            if (demand > 9000) {
+
+                gridStatus = "Critical Grid Load";
+                statusClass = "danger";
+
+            }
+            else if (demand > 5000) {
+
+                gridStatus = "High Power Load";
+                statusClass = "warning";
+
+            }
+            else {
+
+                gridStatus = "Grid Stable";
+                statusClass = "safe";
+
+            }
+
+            // Blackout risk
+            var blackout = "";
+
+            if (demand > 9000 &&
+                backup == "no") {
+
+                blackout =
+                    "Major Blackout Risk";
+
+            }
+            else {
+
+                blackout =
+                    "Backup Systems Stable";
+
+            }
+
+            // Estimated electricity cost
+            var cost =
+                demand * 12;
+
+            // Emergency action
+            var action = "";
+
+            if (demand > 9000) {
+
+                action =
+                    "Reduce industrial power usage immediately";
+
+            }
+            else if (demand > 5000) {
+
+                action =
+                    "Activate additional power stations";
+
+            }
+            else {
+
+                action =
+                    "Normal operations";
+
+            }
+
+            // Output report
+            document.getElementById("result").innerHTML =
+
+                "<h3>Power Grid Report</h3>" +
+
+                "City Name: " +
+                city + "<br><br>" +
+
+                "Total Houses: " +
+                houses + "<br><br>" +
+
+                "Factory Count: " +
+                factories + "<br><br>" +
+
+                "Power Demand: " +
+                demand.toFixed(2) + " Units<br><br>" +
+
+                "<span class='" + statusClass + "'>" +
+                gridStatus +
+                "</span><br><br>" +
+
+                "Renewable Energy: " +
+                renewable + "<br><br>" +
+
+                "Backup System: " +
+                backup + "<br><br>" +
+
+                "Blackout Status: " +
+                blackout + "<br><br>" +
+
+                "Estimated Grid Cost: Rs. " +
+                cost.toFixed(2) + "<br><br>" +
+
+                "Recommended Action: " +
+                action;
+
+        }
+
+    </script>
+
+</body>
+</html>
