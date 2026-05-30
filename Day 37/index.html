@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hotel Booking System</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background:#f4f6f8;
+            text-align:center;
+            margin-top:20px;
+        }
+
+        .container{
+            width:800px;
+            margin:auto;
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 0 15px gray;
+        }
+
+        input,select,button{
+            width:380px;
+            padding:12px;
+            margin:10px;
+            font-size:15px;
+        }
+
+        button{
+            background:#2563eb;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        #result{
+            margin-top:20px;
+            text-align:left;
+            font-size:18px;
+        }
+
+        .safe{
+            color:green;
+        }
+
+        .warning{
+            color:orange;
+        }
+
+        .danger{
+            color:red;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🏨 Hotel Booking & Revenue Management</h2>
+
+    <input
+        type="text"
+        id="guest"
+        placeholder="Guest Name">
+
+    <br>
+
+    <select id="room">
+
+        <option value="">
+            Select Room Type
+        </option>
+
+        <option value="standard">
+            Standard
+        </option>
+
+        <option value="deluxe">
+            Deluxe
+        </option>
+
+        <option value="suite">
+            Suite
+        </option>
+
+    </select>
+
+    <br>
+
+    <input
+        type="number"
+        id="nights"
+        placeholder="Number of Nights">
+
+    <br>
+
+    <select id="meal">
+
+        <option value="">
+            Meal Package
+        </option>
+
+        <option value="none">
+            None
+        </option>
+
+        <option value="standard">
+            Standard
+        </option>
+
+        <option value="premium">
+            Premium
+        </option>
+
+    </select>
+
+    <br>
+
+    <select id="pickup">
+
+        <option value="">
+            Airport Pickup?
+        </option>
+
+        <option value="yes">
+            Yes
+        </option>
+
+        <option value="no">
+            No
+        </option>
+
+    </select>
+
+    <br>
+
+    <input
+        type="number"
+        id="occupancy"
+        placeholder="Current Occupancy %">
+
+    <br>
+
+    <button onclick="generateBooking()">
+        Generate Report
+    </button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+function generateBooking(){
+
+    var guest =
+        document.getElementById("guest").value;
+
+    var room =
+        document.getElementById("room").value;
+
+    var nights =
+        Number(document.getElementById("nights").value);
+
+    var meal =
+        document.getElementById("meal").value;
+
+    var pickup =
+        document.getElementById("pickup").value;
+
+    var occupancy =
+        Number(document.getElementById("occupancy").value);
+
+    if(
+        guest == "" ||
+        room == "" ||
+        nights <= 0 ||
+        meal == "" ||
+        pickup == "" ||
+        occupancy < 0
+    ){
+
+        document.getElementById("result").innerHTML =
+            "Please enter valid booking details";
+
+        return;
+    }
+
+    var roomRate = 0;
+
+    if(room == "standard"){
+
+        roomRate = 4000;
+
+    }
+    else if(room == "deluxe"){
+
+        roomRate = 8000;
+
+    }
+    else{
+
+        roomRate = 15000;
+
+    }
+
+    var mealCost = 0;
+
+    if(meal == "standard"){
+
+        mealCost = nights * 1000;
+
+    }
+    else if(meal == "premium"){
+
+        mealCost = nights * 2500;
+
+    }
+
+    var pickupCost = 0;
+
+    if(pickup == "yes"){
+
+        pickupCost = 2000;
+
+    }
+
+    var roomCost =
+        roomRate * nights;
+
+    var subtotal =
+        roomCost +
+        mealCost +
+        pickupCost;
+
+    var discount = 0;
+
+    if(nights >= 15){
+
+        discount =
+            subtotal * 0.15;
+
+    }
+    else if(nights >= 7){
+
+        discount =
+            subtotal * 0.10;
+
+    }
+
+    var finalAmount =
+        subtotal - discount;
+
+    var occupancyStatus = "";
+    var statusClass = "";
+
+    if(occupancy >= 90){
+
+        occupancyStatus =
+            "Hotel Almost Full";
+
+        statusClass = "danger";
+
+    }
+    else if(occupancy >= 70){
+
+        occupancyStatus =
+            "High Occupancy";
+
+        statusClass = "warning";
+
+    }
+    else{
+
+        occupancyStatus =
+            "Rooms Available";
+
+        statusClass = "safe";
+
+    }
+
+    var revenueCategory = "";
+
+    if(finalAmount >= 100000){
+
+        revenueCategory =
+            "Premium Booking";
+
+    }
+    else if(finalAmount >= 50000){
+
+        revenueCategory =
+            "High Value Booking";
+
+    }
+    else{
+
+        revenueCategory =
+            "Regular Booking";
+
+    }
+
+    document.getElementById("result").innerHTML =
+
+        "<h3>Booking Report</h3>" +
+
+        "Guest Name: " +
+        guest + "<br><br>" +
+
+        "Room Type: " +
+        room + "<br><br>" +
+
+        "Stay Duration: " +
+        nights + " Nights<br><br>" +
+
+        "Room Cost: Rs. " +
+        roomCost + "<br><br>" +
+
+        "Meal Cost: Rs. " +
+        mealCost + "<br><br>" +
+
+        "Pickup Cost: Rs. " +
+        pickupCost + "<br><br>" +
+
+        "Discount: Rs. " +
+        discount.toFixed(2) + "<br><br>" +
+
+        "<span class='" + statusClass + "'>" +
+        occupancyStatus +
+        "</span><br><br>" +
+
+        "Revenue Category: " +
+        revenueCategory + "<br><br>" +
+
+        "<strong>Final Bill: Rs. " +
+        finalAmount.toFixed(2) +
+        "</strong>";
+}
+
+</script>
+
+</body>
+</html>
