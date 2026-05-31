@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Warehouse Logistics System</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background:#eef3f7;
+            text-align:center;
+            margin-top:20px;
+        }
+
+        .container{
+            width:800px;
+            margin:auto;
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 0 15px gray;
+        }
+
+        input,select,button{
+            width:380px;
+            padding:12px;
+            margin:10px;
+            font-size:15px;
+        }
+
+        button{
+            background:#0f766e;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        #result{
+            margin-top:20px;
+            text-align:left;
+            font-size:18px;
+        }
+
+        .safe{
+            color:green;
+        }
+
+        .warning{
+            color:orange;
+        }
+
+        .danger{
+            color:red;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>📦 Warehouse Logistics System</h2>
+
+    <input
+        type="text"
+        id="customer"
+        placeholder="Customer Name">
+
+    <br>
+
+    <select id="package">
+
+        <option value="">
+            Package Type
+        </option>
+
+        <option value="small">
+            Small Package
+        </option>
+
+        <option value="medium">
+            Medium Package
+        </option>
+
+        <option value="large">
+            Large Package
+        </option>
+
+    </select>
+
+    <br>
+
+    <select id="distance">
+
+        <option value="">
+            Delivery Distance
+        </option>
+
+        <option value="local">
+            Local
+        </option>
+
+        <option value="regional">
+            Regional
+        </option>
+
+        <option value="national">
+            National
+        </option>
+
+    </select>
+
+    <br>
+
+    <input
+        type="number"
+        id="stock"
+        placeholder="Available Warehouse Stock">
+
+    <br>
+
+    <select id="priority">
+
+        <option value="">
+            Priority Delivery?
+        </option>
+
+        <option value="yes">
+            Yes
+        </option>
+
+        <option value="no">
+            No
+        </option>
+
+    </select>
+
+    <br>
+
+    <button onclick="generateReport()">
+        Generate Shipment Report
+    </button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+function generateReport(){
+
+    var customer =
+        document.getElementById("customer").value;
+
+    var packageType =
+        document.getElementById("package").value;
+
+    var distance =
+        document.getElementById("distance").value;
+
+    var stock =
+        Number(document.getElementById("stock").value);
+
+    var priority =
+        document.getElementById("priority").value;
+
+    if(
+        customer == "" ||
+        packageType == "" ||
+        distance == "" ||
+        stock < 0 ||
+        priority == ""
+    ){
+
+        document.getElementById("result").innerHTML =
+            "Please fill all fields";
+
+        return;
+    }
+
+    var packageCost = 0;
+
+    if(packageType == "small"){
+
+        packageCost = 500;
+
+    }
+    else if(packageType == "medium"){
+
+        packageCost = 1200;
+
+    }
+    else{
+
+        packageCost = 2500;
+
+    }
+
+    var distanceCost = 0;
+
+    if(distance == "local"){
+
+        distanceCost = 300;
+
+    }
+    else if(distance == "regional"){
+
+        distanceCost = 1000;
+
+    }
+    else{
+
+        distanceCost = 3000;
+
+    }
+
+    var priorityCost = 0;
+
+    if(priority == "yes"){
+
+        priorityCost = 1500;
+
+    }
+
+    var totalCost =
+        packageCost +
+        distanceCost +
+        priorityCost;
+
+    var stockStatus = "";
+    var stockClass = "";
+
+    if(stock < 20){
+
+        stockStatus = "Low Stock Warning";
+        stockClass = "danger";
+
+    }
+    else if(stock < 50){
+
+        stockStatus = "Medium Stock";
+        stockClass = "warning";
+
+    }
+    else{
+
+        stockStatus = "Stock Healthy";
+        stockClass = "safe";
+
+    }
+
+    var deliveryRisk = "";
+
+    if(
+        distance == "national" &&
+        priority == "no"
+    ){
+
+        deliveryRisk =
+            "High Delay Risk";
+
+    }
+    else{
+
+        deliveryRisk =
+            "Delivery On Schedule";
+
+    }
+
+    var driver = "";
+
+    if(distance == "local"){
+
+        driver = "Local Delivery Team";
+
+    }
+    else if(distance == "regional"){
+
+        driver = "Regional Transport Team";
+
+    }
+    else{
+
+        driver = "National Logistics Team";
+
+    }
+
+    document.getElementById("result").innerHTML =
+
+        "<h3>Shipment Report</h3>" +
+
+        "Customer: " +
+        customer + "<br><br>" +
+
+        "Package Type: " +
+        packageType + "<br><br>" +
+
+        "Distance: " +
+        distance + "<br><br>" +
+
+        "Assigned Team: " +
+        driver + "<br><br>" +
+
+        "<span class='" + stockClass + "'>" +
+        stockStatus +
+        "</span><br><br>" +
+
+        "Delivery Risk: " +
+        deliveryRisk + "<br><br>" +
+
+        "Shipping Cost: Rs. " +
+        totalCost + "<br><br>" +
+
+        "<strong>Shipment Ready</strong>";
+
+}
+
+</script>
+
+</body>
+</html>
