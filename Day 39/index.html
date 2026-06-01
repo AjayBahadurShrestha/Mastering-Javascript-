@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Digital Loan Approval System</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background:#eef4ff;
+            text-align:center;
+            margin-top:20px;
+        }
+
+        .container{
+            width:800px;
+            margin:auto;
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 0 15px gray;
+        }
+
+        input,
+        select,
+        button{
+            width:400px;
+            padding:12px;
+            margin:10px;
+            font-size:15px;
+        }
+
+        button{
+            background:#1e40af;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        #result{
+            margin-top:20px;
+            text-align:left;
+            font-size:18px;
+        }
+
+        .safe{
+            color:green;
+        }
+
+        .warning{
+            color:orange;
+        }
+
+        .danger{
+            color:red;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🏦 Digital Loan Approval System</h2>
+
+    <input
+        type="text"
+        id="name"
+        placeholder="Customer Name">
+
+    <br>
+
+    <input
+        type="number"
+        id="income"
+        placeholder="Monthly Income">
+
+    <br>
+
+    <input
+        type="number"
+        id="loan"
+        placeholder="Loan Amount">
+
+    <br>
+
+    <input
+        type="number"
+        id="score"
+        placeholder="Credit Score">
+
+    <br>
+
+    <select id="job">
+
+        <option value="">
+            Employment Type
+        </option>
+
+        <option value="private">
+            Private Employee
+        </option>
+
+        <option value="government">
+            Government Employee
+        </option>
+
+        <option value="business">
+            Business Owner
+        </option>
+
+    </select>
+
+    <br>
+
+    <button onclick="checkLoan()">
+        Analyze Loan
+    </button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+function checkLoan(){
+
+    var name =
+        document.getElementById("name").value;
+
+    var income =
+        Number(document.getElementById("income").value);
+
+    var loan =
+        Number(document.getElementById("loan").value);
+
+    var score =
+        Number(document.getElementById("score").value);
+
+    var job =
+        document.getElementById("job").value;
+
+    if(
+        name == "" ||
+        income <= 0 ||
+        loan <= 0 ||
+        score <= 0 ||
+        job == ""
+    ){
+
+        document.getElementById("result").innerHTML =
+            "Please enter valid information";
+
+        return;
+    }
+
+    var interestRate = 0;
+    var risk = "";
+    var riskClass = "";
+
+    if(score >= 750){
+
+        interestRate = 8;
+        risk = "Excellent Credit";
+        riskClass = "safe";
+
+    }
+    else if(score >= 650){
+
+        interestRate = 10;
+        risk = "Good Credit";
+        riskClass = "safe";
+
+    }
+    else if(score >= 550){
+
+        interestRate = 14;
+        risk = "Medium Risk";
+        riskClass = "warning";
+
+    }
+    else{
+
+        interestRate = 18;
+        risk = "High Risk";
+        riskClass = "danger";
+
+    }
+
+    var approved = "Rejected";
+
+    if(
+        score > 500 &&
+        income >= (loan * 0.05)
+    ){
+
+        approved = "Approved";
+
+    }
+
+    var totalPayable =
+        loan + (loan * interestRate / 100);
+
+    var emi =
+        totalPayable / 12;
+
+    document.getElementById("result").innerHTML =
+
+        "<h3>Loan Analysis Report</h3>" +
+
+        "Customer: " +
+        name + "<br><br>" +
+
+        "Employment: " +
+        job + "<br><br>" +
+
+        "Requested Loan: Rs. " +
+        loan + "<br><br>" +
+
+        "Monthly Income: Rs. " +
+        income + "<br><br>" +
+
+        "<span class='" + riskClass + "'>" +
+        risk +
+        "</span><br><br>" +
+
+        "Interest Rate: " +
+        interestRate + "%<br><br>" +
+
+        "Loan Status: " +
+        approved + "<br><br>" +
+
+        "Total Payable: Rs. " +
+        totalPayable.toFixed(2) + "<br><br>" +
+
+        "Estimated Monthly EMI: Rs. " +
+        emi.toFixed(2);
+
+}
+
+</script>
+
+</body>
+
+</html>
