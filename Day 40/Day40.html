@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>University Admission System</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background:#f3f6fa;
+            text-align:center;
+            margin-top:20px;
+        }
+
+        .container{
+            width:800px;
+            margin:auto;
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 0 15px gray;
+        }
+
+        input,
+        select,
+        button{
+            width:400px;
+            padding:12px;
+            margin:10px;
+            font-size:15px;
+        }
+
+        button{
+            background:#2563eb;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        #result{
+            margin-top:20px;
+            text-align:left;
+            font-size:18px;
+        }
+
+        .safe{
+            color:green;
+        }
+
+        .warning{
+            color:orange;
+        }
+
+        .danger{
+            color:red;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🎓 University Admission Management System</h2>
+
+    <input
+        type="text"
+        id="student"
+        placeholder="Student Name">
+
+    <br>
+
+    <input
+        type="number"
+        id="gpa"
+        placeholder="Academic Percentage">
+
+    <br>
+
+    <input
+        type="number"
+        id="exam"
+        placeholder="Entrance Exam Score">
+
+    <br>
+
+    <select id="program">
+
+        <option value="">
+            Select Program
+        </option>
+
+        <option value="cs">
+            Computer Science
+        </option>
+
+        <option value="engineering">
+            Engineering
+        </option>
+
+        <option value="business">
+            Business
+        </option>
+
+    </select>
+
+    <br>
+
+    <select id="activity">
+
+        <option value="">
+            Extracurricular Activities
+        </option>
+
+        <option value="yes">
+            Participated
+        </option>
+
+        <option value="no">
+            Not Participated
+        </option>
+
+    </select>
+
+    <br>
+
+    <button onclick="evaluateAdmission()">
+        Evaluate Admission
+    </button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+function evaluateAdmission(){
+
+    var student =
+        document.getElementById("student").value;
+
+    var gpa =
+        Number(document.getElementById("gpa").value);
+
+    var exam =
+        Number(document.getElementById("exam").value);
+
+    var program =
+        document.getElementById("program").value;
+
+    var activity =
+        document.getElementById("activity").value;
+
+    if(
+        student == "" ||
+        gpa < 0 ||
+        exam < 0 ||
+        program == "" ||
+        activity == ""
+    ){
+
+        document.getElementById("result").innerHTML =
+            "Please fill all fields";
+
+        return;
+    }
+
+    var fee = 0;
+
+    if(program == "cs"){
+
+        fee = 150000;
+
+    }
+    else if(program == "engineering"){
+
+        fee = 180000;
+
+    }
+    else{
+
+        fee = 120000;
+
+    }
+
+    var merit = "";
+    var scholarship = 0;
+    var meritClass = "";
+
+    if(gpa >= 90){
+
+        merit = "Outstanding";
+        scholarship = 50;
+        meritClass = "safe";
+
+    }
+    else if(gpa >= 80){
+
+        merit = "Excellent";
+        scholarship = 30;
+        meritClass = "safe";
+
+    }
+    else if(gpa >= 70){
+
+        merit = "Good";
+        scholarship = 10;
+        meritClass = "warning";
+
+    }
+    else{
+
+        merit = "Average";
+        scholarship = 0;
+        meritClass = "danger";
+
+    }
+
+    if(activity == "yes"){
+
+        scholarship =
+            scholarship + 5;
+
+    }
+
+    var admission = "Rejected";
+
+    if(
+        gpa >= 60 &&
+        exam >= 50
+    ){
+
+        admission = "Admitted";
+
+    }
+
+    var discount =
+        fee * scholarship / 100;
+
+    var finalFee =
+        fee - discount;
+
+    document.getElementById("result").innerHTML =
+
+        "<h3>Admission Report</h3>" +
+
+        "Student Name: " +
+        student + "<br><br>" +
+
+        "Program: " +
+        program + "<br><br>" +
+
+        "<span class='" + meritClass + "'>" +
+        merit +
+        "</span><br><br>" +
+
+        "Entrance Score: " +
+        exam + "<br><br>" +
+
+        "Admission Status: " +
+        admission + "<br><br>" +
+
+        "Scholarship: " +
+        scholarship + "%<br><br>" +
+
+        "Annual Fee: Rs. " +
+        fee + "<br><br>" +
+
+        "Fee Discount: Rs. " +
+        discount.toFixed(2) + "<br><br>" +
+
+        "<strong>Final Payable Fee: Rs. " +
+        finalFee.toFixed(2) +
+        "</strong>";
+
+}
+
+</script>
+
+</body>
+</html>
