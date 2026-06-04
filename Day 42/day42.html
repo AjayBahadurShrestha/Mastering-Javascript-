@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Employee Payroll System</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background:#f4f7fb;
+            text-align:center;
+            margin-top:20px;
+        }
+
+        .container{
+            width:800px;
+            margin:auto;
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 0 15px gray;
+        }
+
+        input,
+        select,
+        button{
+            width:400px;
+            padding:12px;
+            margin:10px;
+            font-size:15px;
+        }
+
+        button{
+            background:#2563eb;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        #result{
+            margin-top:20px;
+            text-align:left;
+            font-size:18px;
+        }
+
+        .excellent{
+            color:green;
+        }
+
+        .good{
+            color:orange;
+        }
+
+        .poor{
+            color:red;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🏢 Employee Payroll & Performance System</h2>
+
+    <input
+        type="text"
+        id="employee"
+        placeholder="Employee Name">
+
+    <br>
+
+    <input
+        type="number"
+        id="salary"
+        placeholder="Monthly Salary">
+
+    <br>
+
+    <input
+        type="number"
+        id="overtime"
+        placeholder="Overtime Hours">
+
+    <br>
+
+    <select id="department">
+
+        <option value="">
+            Select Department
+        </option>
+
+        <option value="it">
+            IT
+        </option>
+
+        <option value="hr">
+            HR
+        </option>
+
+        <option value="finance">
+            Finance
+        </option>
+
+    </select>
+
+    <br>
+
+    <select id="performance">
+
+        <option value="">
+            Performance Rating
+        </option>
+
+        <option value="excellent">
+            Excellent
+        </option>
+
+        <option value="good">
+            Good
+        </option>
+
+        <option value="average">
+            Average
+        </option>
+
+        <option value="poor">
+            Poor
+        </option>
+
+    </select>
+
+    <br>
+
+    <button onclick="calculateSalary()">
+        Generate Payroll Report
+    </button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+function calculateSalary(){
+
+    var employee =
+        document.getElementById("employee").value;
+
+    var salary =
+        Number(document.getElementById("salary").value);
+
+    var overtime =
+        Number(document.getElementById("overtime").value);
+
+    var department =
+        document.getElementById("department").value;
+
+    var performance =
+        document.getElementById("performance").value;
+
+    if(
+        employee == "" ||
+        salary <= 0 ||
+        overtime < 0 ||
+        department == "" ||
+        performance == ""
+    ){
+
+        document.getElementById("result").innerHTML =
+            "Please enter valid employee information";
+
+        return;
+    }
+
+    var overtimePay =
+        overtime * 500;
+
+    var bonus = 0;
+    var performanceText = "";
+    var performanceClass = "";
+
+    if(performance == "excellent"){
+
+        bonus = salary * 0.20;
+        performanceText = "Excellent";
+        performanceClass = "excellent";
+
+    }
+    else if(performance == "good"){
+
+        bonus = salary * 0.10;
+        performanceText = "Good";
+        performanceClass = "good";
+
+    }
+    else if(performance == "average"){
+
+        bonus = salary * 0.05;
+        performanceText = "Average";
+        performanceClass = "good";
+
+    }
+    else{
+
+        bonus = 0;
+        performanceText = "Poor";
+        performanceClass = "poor";
+
+    }
+
+    var grossSalary =
+        salary +
+        overtimePay +
+        bonus;
+
+    var tax = 0;
+
+    if(grossSalary > 100000){
+
+        tax =
+            grossSalary * 0.15;
+
+    }
+    else{
+
+        tax =
+            grossSalary * 0.10;
+
+    }
+
+    var finalSalary =
+        grossSalary - tax;
+
+    document.getElementById("result").innerHTML =
+
+        "<h3>Payroll Report</h3>" +
+
+        "Employee Name: " +
+        employee + "<br><br>" +
+
+        "Department: " +
+        department + "<br><br>" +
+
+        "<span class='" + performanceClass + "'>" +
+        performanceText +
+        " Performance</span><br><br>" +
+
+        "Base Salary: Rs. " +
+        salary.toFixed(2) + "<br><br>" +
+
+        "Overtime Pay: Rs. " +
+        overtimePay.toFixed(2) + "<br><br>" +
+
+        "Bonus: Rs. " +
+        bonus.toFixed(2) + "<br><br>" +
+
+        "Gross Salary: Rs. " +
+        grossSalary.toFixed(2) + "<br><br>" +
+
+        "Tax Deduction: Rs. " +
+        tax.toFixed(2) + "<br><br>" +
+
+        "<strong>Final Salary: Rs. " +
+        finalSalary.toFixed(2) +
+        "</strong>";
+
+}
+
+</script>
+
+</body>
+</html>
