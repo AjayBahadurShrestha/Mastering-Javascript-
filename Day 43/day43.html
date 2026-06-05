@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Real Estate Management System</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background:#eef4f8;
+            text-align:center;
+            margin-top:20px;
+        }
+
+        .container{
+            width:850px;
+            margin:auto;
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 0 15px gray;
+        }
+
+        input,
+        select,
+        button{
+            width:400px;
+            padding:12px;
+            margin:10px;
+            font-size:15px;
+        }
+
+        button{
+            background:#15803d;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        #result{
+            margin-top:20px;
+            text-align:left;
+            font-size:18px;
+        }
+
+        .safe{
+            color:green;
+        }
+
+        .warning{
+            color:orange;
+        }
+
+        .danger{
+            color:red;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🏠 Real Estate Property Management System</h2>
+
+    <input
+        type="text"
+        id="buyer"
+        placeholder="Buyer Name">
+
+    <br>
+
+    <select id="property">
+
+        <option value="">
+            Select Property Type
+        </option>
+
+        <option value="apartment">
+            Apartment
+        </option>
+
+        <option value="house">
+            House
+        </option>
+
+        <option value="villa">
+            Villa
+        </option>
+
+    </select>
+
+    <br>
+
+    <input
+        type="number"
+        id="size"
+        placeholder="Property Size (sq ft)">
+
+    <br>
+
+    <input
+        type="number"
+        id="income"
+        placeholder="Monthly Income">
+
+    <br>
+
+    <select id="payment">
+
+        <option value="">
+            Payment Method
+        </option>
+
+        <option value="cash">
+            Cash
+        </option>
+
+        <option value="loan">
+            Bank Loan
+        </option>
+
+    </select>
+
+    <br>
+
+    <button onclick="generatePropertyReport()">
+        Generate Property Report
+    </button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+function generatePropertyReport(){
+
+    var buyer =
+        document.getElementById("buyer").value;
+
+    var property =
+        document.getElementById("property").value;
+
+    var size =
+        Number(document.getElementById("size").value);
+
+    var income =
+        Number(document.getElementById("income").value);
+
+    var payment =
+        document.getElementById("payment").value;
+
+    if(
+        buyer == "" ||
+        property == "" ||
+        size <= 0 ||
+        income <= 0 ||
+        payment == ""
+    ){
+
+        document.getElementById("result").innerHTML =
+            "Please enter valid information";
+
+        return;
+    }
+
+    var rate = 0;
+
+    if(property == "apartment"){
+
+        rate = 5000;
+
+    }
+    else if(property == "house"){
+
+        rate = 8000;
+
+    }
+    else{
+
+        rate = 15000;
+
+    }
+
+    var propertyValue =
+        rate * size;
+
+    var commission =
+        propertyValue * 0.03;
+
+    var tax =
+        propertyValue * 0.02;
+
+    var loanStatus = "";
+    var statusClass = "";
+
+    if(income >= 100000){
+
+        loanStatus = "Premium Loan Eligible";
+        statusClass = "safe";
+
+    }
+    else if(income >= 50000){
+
+        loanStatus = "Loan Eligible";
+        statusClass = "warning";
+
+    }
+    else{
+
+        loanStatus = "Loan Not Eligible";
+        statusClass = "danger";
+
+    }
+
+    var finalCost =
+        propertyValue +
+        commission +
+        tax;
+
+    var paymentMessage = "";
+
+    if(payment == "cash"){
+
+        paymentMessage =
+            "Full Cash Purchase";
+
+    }
+    else{
+
+        paymentMessage =
+            "Bank Financing Required";
+
+    }
+
+    document.getElementById("result").innerHTML =
+
+        "<h3>Property Purchase Report</h3>" +
+
+        "Buyer Name: " +
+        buyer + "<br><br>" +
+
+        "Property Type: " +
+        property + "<br><br>" +
+
+        "Property Size: " +
+        size + " sq ft<br><br>" +
+
+        "Property Value: Rs. " +
+        propertyValue.toFixed(2) + "<br><br>" +
+
+        "Agent Commission: Rs. " +
+        commission.toFixed(2) + "<br><br>" +
+
+        "Property Tax: Rs. " +
+        tax.toFixed(2) + "<br><br>" +
+
+        "<span class='" + statusClass + "'>" +
+        loanStatus +
+        "</span><br><br>" +
+
+        "Payment Method: " +
+        paymentMessage + "<br><br>" +
+
+        "<strong>Total Property Cost: Rs. " +
+        finalCost.toFixed(2) +
+        "</strong>";
+
+}
+
+</script>
+
+</body>
+
+</html>
