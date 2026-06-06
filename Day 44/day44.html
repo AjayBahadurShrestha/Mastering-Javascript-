@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Fleet Management System</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background:#f5f7fa;
+            text-align:center;
+            margin-top:20px;
+        }
+
+        .container{
+            width:850px;
+            margin:auto;
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 0 15px gray;
+        }
+
+        input,
+        select,
+        button{
+            width:400px;
+            padding:12px;
+            margin:10px;
+            font-size:15px;
+        }
+
+        button{
+            background:#2563eb;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        #result{
+            margin-top:20px;
+            text-align:left;
+            font-size:18px;
+        }
+
+        .excellent{
+            color:green;
+        }
+
+        .good{
+            color:orange;
+        }
+
+        .poor{
+            color:red;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🚚 Fleet Management & Vehicle Tracking System</h2>
+
+    <input
+        type="text"
+        id="vehicleId"
+        placeholder="Vehicle ID">
+
+    <br>
+
+    <select id="vehicleType">
+
+        <option value="">
+            Select Vehicle Type
+        </option>
+
+        <option value="van">
+            Van
+        </option>
+
+        <option value="truck">
+            Truck
+        </option>
+
+        <option value="trailer">
+            Trailer
+        </option>
+
+    </select>
+
+    <br>
+
+    <input
+        type="number"
+        id="distance"
+        placeholder="Distance Traveled (km)">
+
+    <br>
+
+    <input
+        type="number"
+        id="fuel"
+        placeholder="Fuel Used (liters)">
+
+    <br>
+
+    <input
+        type="number"
+        id="rating"
+        placeholder="Driver Rating (1-5)">
+
+    <br>
+
+    <button onclick="analyzeFleet()">
+        Generate Fleet Report
+    </button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+function analyzeFleet(){
+
+    var vehicleId =
+        document.getElementById("vehicleId").value;
+
+    var vehicleType =
+        document.getElementById("vehicleType").value;
+
+    var distance =
+        Number(document.getElementById("distance").value);
+
+    var fuel =
+        Number(document.getElementById("fuel").value);
+
+    var rating =
+        Number(document.getElementById("rating").value);
+
+    if(
+        vehicleId == "" ||
+        vehicleType == "" ||
+        distance <= 0 ||
+        fuel <= 0 ||
+        rating <= 0
+    ){
+
+        document.getElementById("result").innerHTML =
+            "Please enter valid information.";
+
+        return;
+    }
+
+    var costPerKm = 0;
+
+    if(vehicleType == "van"){
+
+        costPerKm = 15;
+
+    }
+    else if(vehicleType == "truck"){
+
+        costPerKm = 30;
+
+    }
+    else{
+
+        costPerKm = 50;
+
+    }
+
+    var operatingCost =
+        distance * costPerKm;
+
+    var efficiency =
+        distance / fuel;
+
+    var efficiencyText = "";
+    var efficiencyClass = "";
+
+    if(efficiency > 15){
+
+        efficiencyText = "Excellent Efficiency";
+        efficiencyClass = "excellent";
+
+    }
+    else if(efficiency >= 10){
+
+        efficiencyText = "Good Efficiency";
+        efficiencyClass = "good";
+
+    }
+    else{
+
+        efficiencyText = "Poor Efficiency";
+        efficiencyClass = "poor";
+
+    }
+
+    var maintenance = "";
+
+    if(distance > 10000){
+
+        maintenance =
+            "Maintenance Required";
+
+    }
+    else{
+
+        maintenance =
+            "Vehicle Healthy";
+
+    }
+
+    var driverPerformance = "";
+
+    if(rating >= 4.5){
+
+        driverPerformance =
+            "Excellent Driver";
+
+    }
+    else if(rating >= 3.5){
+
+        driverPerformance =
+            "Good Driver";
+
+    }
+    else{
+
+        driverPerformance =
+            "Needs Improvement";
+
+    }
+
+    document.getElementById("result").innerHTML =
+
+        "<h3>Fleet Report</h3>" +
+
+        "Vehicle ID: " +
+        vehicleId + "<br><br>" +
+
+        "Vehicle Type: " +
+        vehicleType + "<br><br>" +
+
+        "Distance Traveled: " +
+        distance + " km<br><br>" +
+
+        "Fuel Used: " +
+        fuel + " liters<br><br>" +
+
+        "<span class='" + efficiencyClass + "'>" +
+        efficiencyText +
+        "</span><br><br>" +
+
+        "Fuel Efficiency: " +
+        efficiency.toFixed(2) + " km/L<br><br>" +
+
+        "Maintenance Status: " +
+        maintenance + "<br><br>" +
+
+        "Driver Performance: " +
+        driverPerformance + "<br><br>" +
+
+        "Operating Cost: Rs. " +
+        operatingCost.toFixed(2);
+
+}
+
+</script>
+
+</body>
+</html>
