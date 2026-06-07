@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Manufacturing Production System</title>
+
+<style>
+
+body{
+    font-family:Arial;
+    background:#eef2f7;
+    text-align:center;
+    margin-top:20px;
+}
+
+.container{
+    width:850px;
+    margin:auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 0 15px gray;
+}
+
+input,
+select,
+button{
+    width:400px;
+    padding:12px;
+    margin:10px;
+    font-size:15px;
+}
+
+button{
+    background:#0f766e;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+#result{
+    margin-top:20px;
+    text-align:left;
+    font-size:18px;
+}
+
+.excellent{
+    color:green;
+}
+
+.good{
+    color:orange;
+}
+
+.poor{
+    color:red;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>🏭 Manufacturing Production & Quality Control</h2>
+
+<input
+type="text"
+id="factory"
+placeholder="Factory Name">
+
+<br>
+
+<input
+type="number"
+id="units"
+placeholder="Units Produced">
+
+<br>
+
+<input
+type="number"
+id="defects"
+placeholder="Defective Units">
+
+<br>
+
+<input
+type="number"
+id="workers"
+placeholder="Number of Workers">
+
+<br>
+
+<select id="machine">
+
+<option value="">
+Select Machine Condition
+</option>
+
+<option value="excellent">
+Excellent
+</option>
+
+<option value="average">
+Average
+</option>
+
+<option value="poor">
+Poor
+</option>
+
+</select>
+
+<br>
+
+<button onclick="generateReport()">
+Generate Report
+</button>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+function generateReport(){
+
+    var factory =
+        document.getElementById("factory").value;
+
+    var units =
+        Number(document.getElementById("units").value);
+
+    var defects =
+        Number(document.getElementById("defects").value);
+
+    var workers =
+        Number(document.getElementById("workers").value);
+
+    var machine =
+        document.getElementById("machine").value;
+
+    if(
+        factory == "" ||
+        units <= 0 ||
+        defects < 0 ||
+        workers <= 0 ||
+        machine == ""
+    ){
+
+        document.getElementById("result").innerHTML =
+            "Please enter valid information.";
+
+        return;
+    }
+
+    var efficiency = 100;
+
+    if(machine == "excellent"){
+
+        efficiency = 110;
+
+    }
+    else if(machine == "poor"){
+
+        efficiency = 85;
+
+    }
+
+    var defectRate =
+        (defects / units) * 100;
+
+    var quality = "";
+    var qualityClass = "";
+
+    if(defectRate < 2){
+
+        quality = "Excellent Quality";
+        qualityClass = "excellent";
+
+    }
+    else if(defectRate < 5){
+
+        quality = "Good Quality";
+        qualityClass = "good";
+
+    }
+    else{
+
+        quality = "Poor Quality";
+        qualityClass = "poor";
+
+    }
+
+    var productivity =
+        units / workers;
+
+    var productivityText = "";
+
+    if(productivity > 100){
+
+        productivityText =
+            "High Productivity";
+
+    }
+    else if(productivity > 50){
+
+        productivityText =
+            "Average Productivity";
+
+    }
+    else{
+
+        productivityText =
+            "Low Productivity";
+
+    }
+
+    var productionCost =
+        units * 50;
+
+    document.getElementById("result").innerHTML =
+
+        "<h3>Factory Production Report</h3>" +
+
+        "Factory Name: " +
+        factory + "<br><br>" +
+
+        "Units Produced: " +
+        units + "<br><br>" +
+
+        "Defective Units: " +
+        defects + "<br><br>" +
+
+        "<span class='" + qualityClass + "'>" +
+        quality +
+        "</span><br><br>" +
+
+        "Defect Rate: " +
+        defectRate.toFixed(2) + "%<br><br>" +
+
+        "Machine Efficiency: " +
+        efficiency + "%<br><br>" +
+
+        "Worker Productivity: " +
+        productivity.toFixed(2) +
+        " Units/Worker<br><br>" +
+
+        "Productivity Status: " +
+        productivityText + "<br><br>" +
+
+        "Production Cost: Rs. " +
+        productionCost.toFixed(2);
+
+}
+
+</script>
+
+</body>
+</html>
