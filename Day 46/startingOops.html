@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Library Rental System</title>
+
+    <style>
+        body{
+            font-family: Arial;
+            text-align: center;
+            background: #f4f4f4;
+        }
+
+        .box{
+            width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 10px;
+        }
+
+        input, select, button{
+            width: 300px;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        #result{
+            margin-top: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <h2>📚 Library Book Rental System</h2>
+
+    <input
+        type="text"
+        id="student"
+        placeholder="Student Name">
+
+    <br>
+
+    <select id="book">
+
+        <option value="">
+            Select Book
+        </option>
+
+        <option value="JavaScript">
+            JavaScript
+        </option>
+
+        <option value="Python">
+            Python
+        </option>
+
+        <option value="Java">
+            Java
+        </option>
+
+    </select>
+
+    <br>
+
+    <input
+        type="number"
+        id="days"
+        placeholder="Rental Days">
+
+    <br>
+
+    <button onclick="rentBook()">
+        Calculate Rental
+    </button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+class Rental {
+
+    constructor(student, book, days){
+
+        this.student = student;
+        this.book = book;
+        this.days = days;
+    }
+
+    calculateFee(){
+
+        return this.days * 50;
+    }
+
+}
+
+function rentBook(){
+
+    var student =
+        document.getElementById("student").value;
+
+    var book =
+        document.getElementById("book").value;
+
+    var days =
+        Number(document.getElementById("days").value);
+
+    if(
+        student == "" ||
+        book == "" ||
+        days <= 0
+    ){
+
+        document.getElementById("result").innerHTML =
+            "Please enter valid data";
+
+        return;
+    }
+
+    var rental =
+        new Rental(
+            student,
+            book,
+            days
+        );
+
+    var fee =
+        rental.calculateFee();
+
+    document.getElementById("result").innerHTML =
+
+        "<h3>Rental Report</h3>" +
+
+        "Student: " +
+        rental.student + "<br><br>" +
+
+        "Book: " +
+        rental.book + "<br><br>" +
+
+        "Days: " +
+        rental.days + "<br><br>" +
+
+        "<strong>Total Fee: Rs. " +
+        fee +
+        "</strong>";
+
+}
+
+</script>
+
+</body>
+</html>
