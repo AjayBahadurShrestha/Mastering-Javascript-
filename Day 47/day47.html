@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Car Rental System</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background: #f5f7fa;
+            text-align: center;
+        }
+
+        .container{
+            width: 700px;
+            margin: auto;
+            margin-top: 30px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+
+        input,
+        select,
+        button{
+            width: 320px;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        button{
+            background: #2563eb;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #result{
+            margin-top: 20px;
+            text-align: left;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🚗 Car Rental Management System</h2>
+
+    <input
+        type="text"
+        id="customer"
+        placeholder="Customer Name">
+
+    <br>
+
+    <select id="car">
+
+        <option value="">
+            Select Car
+        </option>
+
+        <option value="Hatchback">
+            Hatchback
+        </option>
+
+        <option value="Sedan">
+            Sedan
+        </option>
+
+        <option value="SUV">
+            SUV
+        </option>
+
+    </select>
+
+    <br>
+
+    <input
+        type="number"
+        id="days"
+        placeholder="Rental Days">
+
+    <br>
+
+    <select id="insurance">
+
+        <option value="">
+            Insurance Required?
+        </option>
+
+        <option value="yes">
+            Yes
+        </option>
+
+        <option value="no">
+            No
+        </option>
+
+    </select>
+
+    <br>
+
+    <button onclick="generateBill()">
+        Generate Bill
+    </button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+class CarRental {
+
+    constructor(customer, car, days){
+
+        this.customer = customer;
+        this.car = car;
+        this.days = days;
+    }
+
+    getDailyRate(){
+
+        if(this.car == "Hatchback"){
+            return 2000;
+        }
+        else if(this.car == "Sedan"){
+            return 3500;
+        }
+        else{
+            return 5000;
+        }
+    }
+
+    calculateRent(){
+
+        return this.getDailyRate() * this.days;
+    }
+
+}
+
+function generateBill(){
+
+    var customer =
+        document.getElementById("customer").value;
+
+    var car =
+        document.getElementById("car").value;
+
+    var days =
+        Number(document.getElementById("days").value);
+
+    var insurance =
+        document.getElementById("insurance").value;
+
+    if(
+        customer == "" ||
+        car == "" ||
+        days <= 0 ||
+        insurance == ""
+    ){
+
+        document.getElementById("result").innerHTML =
+            "Please fill all fields";
+
+        return;
+    }
+
+    var rental =
+        new CarRental(
+            customer,
+            car,
+            days
+        );
+
+    var rent =
+        rental.calculateRent();
+
+    var insuranceFee = 0;
+
+    if(insurance == "yes"){
+        insuranceFee = 1000;
+    }
+
+    var total =
+        rent + insuranceFee;
+
+    document.getElementById("result").innerHTML =
+
+        "<h3>Rental Summary</h3>" +
+
+        "Customer: " +
+        rental.customer + "<br><br>" +
+
+        "Car Type: " +
+        rental.car + "<br><br>" +
+
+        "Rental Days: " +
+        rental.days + "<br><br>" +
+
+        "Daily Rate: Rs. " +
+        rental.getDailyRate() + "<br><br>" +
+
+        "Rental Cost: Rs. " +
+        rent + "<br><br>" +
+
+        "Insurance Fee: Rs. " +
+        insuranceFee + "<br><br>" +
+
+        "<strong>Total Amount: Rs. " +
+        total +
+        "</strong>";
+
+}
+
+</script>
+
+</body>
+</html>
