@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>E-Commerce Order System</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background: #f4f6f9;
+            text-align: center;
+        }
+
+        .container{
+            width: 750px;
+            margin: auto;
+            margin-top: 30px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+
+        input,
+        select,
+        button{
+            width: 320px;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        button{
+            background: #16a34a;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #result{
+            margin-top: 20px;
+            text-align: left;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🛒 E-Commerce Order Management</h2>
+
+    <input
+        type="text"
+        id="customer"
+        placeholder="Customer Name">
+
+    <br>
+
+    <select id="product">
+
+        <option value="">
+            Select Product
+        </option>
+
+        <option value="Laptop">
+            Laptop
+        </option>
+
+        <option value="Phone">
+            Phone
+        </option>
+
+        <option value="Tablet">
+            Tablet
+        </option>
+
+    </select>
+
+    <br>
+
+    <input
+        type="number"
+        id="quantity"
+        placeholder="Quantity">
+
+    <br>
+
+    <select id="shipping">
+
+        <option value="">
+            Shipping Type
+        </option>
+
+        <option value="Standard">
+            Standard
+        </option>
+
+        <option value="Express">
+            Express
+        </option>
+
+    </select>
+
+    <br>
+
+    <button onclick="placeOrder()">
+        Place Order
+    </button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+class Order {
+
+    constructor(customer, product, quantity){
+
+        this.customer = customer;
+        this.product = product;
+        this.quantity = quantity;
+
+    }
+
+    getProductPrice(){
+
+        if(this.product == "Laptop"){
+
+            return 80000;
+
+        }
+        else if(this.product == "Phone"){
+
+            return 30000;
+
+        }
+        else{
+
+            return 20000;
+
+        }
+
+    }
+
+    getSubtotal(){
+
+        return this.getProductPrice() *
+               this.quantity;
+
+    }
+
+}
+
+function placeOrder(){
+
+    var customer =
+        document.getElementById("customer").value;
+
+    var product =
+        document.getElementById("product").value;
+
+    var quantity =
+        Number(document.getElementById("quantity").value);
+
+    var shipping =
+        document.getElementById("shipping").value;
+
+    if(
+        customer == "" ||
+        product == "" ||
+        quantity <= 0 ||
+        shipping == ""
+    ){
+
+        document.getElementById("result").innerHTML =
+            "Please fill all fields.";
+
+        return;
+
+    }
+
+    var order =
+        new Order(
+            customer,
+            product,
+            quantity
+        );
+
+    var subtotal =
+        order.getSubtotal();
+
+    var shippingFee = 0;
+
+    if(shipping == "Express"){
+
+        shippingFee = 1500;
+
+    }
+    else{
+
+        shippingFee = 500;
+
+    }
+
+    var discount = 0;
+
+    if(subtotal > 100000){
+
+        discount =
+            subtotal * 0.10;
+
+    }
+
+    var total =
+        subtotal +
+        shippingFee -
+        discount;
+
+    document.getElementById("result").innerHTML =
+
+        "<h3>Order Summary</h3>" +
+
+        "Customer: " +
+        order.customer + "<br><br>" +
+
+        "Product: " +
+        order.product + "<br><br>" +
+
+        "Quantity: " +
+        order.quantity + "<br><br>" +
+
+        "Unit Price: Rs. " +
+        order.getProductPrice() + "<br><br>" +
+
+        "Subtotal: Rs. " +
+        subtotal + "<br><br>" +
+
+        "Shipping Fee: Rs. " +
+        shippingFee + "<br><br>" +
+
+        "Discount: Rs. " +
+        discount + "<br><br>" +
+
+        "<strong>Total Amount: Rs. " +
+        total +
+        "</strong>";
+
+}
+
+</script>
+
+</body>
+
+</html>
