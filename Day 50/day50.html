@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Student Result Management System</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background:#f4f6f9;
+            text-align:center;
+        }
+
+        .container{
+            width:750px;
+            margin:auto;
+            margin-top:30px;
+            background:white;
+            padding:25px;
+            border-radius:10px;
+            box-shadow:0 0 10px gray;
+        }
+
+        input,
+        button{
+            width:320px;
+            padding:10px;
+            margin:10px;
+        }
+
+        button{
+            background:#16a34a;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        #result{
+            margin-top:20px;
+            text-align:left;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🎓 Student Result Management System</h2>
+
+    <input
+        type="text"
+        id="name"
+        placeholder="Student Name">
+
+    <br>
+
+    <input
+        type="number"
+        id="math"
+        placeholder="Math Marks">
+
+    <br>
+
+    <input
+        type="number"
+        id="science"
+        placeholder="Science Marks">
+
+    <br>
+
+    <input
+        type="number"
+        id="english"
+        placeholder="English Marks">
+
+    <br>
+
+    <button onclick="generateResult()">
+        Generate Result
+    </button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+class Student{
+
+    constructor(name, math, science, english){
+
+        this.name = name;
+        this.math = math;
+        this.science = science;
+        this.english = english;
+
+    }
+
+    calculateTotal(){
+
+        return this.math +
+               this.science +
+               this.english;
+
+    }
+
+    calculateAverage(){
+
+        return this.calculateTotal() / 3;
+
+    }
+
+    getGrade(){
+
+        var avg =
+            this.calculateAverage();
+
+        if(avg >= 80){
+
+            return "A";
+
+        }
+        else if(avg >= 60){
+
+            return "B";
+
+        }
+        else if(avg >= 40){
+
+            return "C";
+
+        }
+        else{
+
+            return "Fail";
+
+        }
+
+    }
+
+}
+
+function generateResult(){
+
+    var name =
+        document.getElementById("name").value;
+
+    var math =
+        Number(document.getElementById("math").value);
+
+    var science =
+        Number(document.getElementById("science").value);
+
+    var english =
+        Number(document.getElementById("english").value);
+
+    if(
+        name == "" ||
+        math < 0 || math > 100 ||
+        science < 0 || science > 100 ||
+        english < 0 || english > 100
+    ){
+
+        document.getElementById("result").innerHTML =
+            "Please enter valid marks.";
+
+        return;
+
+    }
+
+    var student =
+        new Student(
+            name,
+            math,
+            science,
+            english
+        );
+
+    document.getElementById("result").innerHTML =
+
+        "<h3>Result Report</h3>" +
+
+        "Student Name: " +
+        student.name + "<br><br>" +
+
+        "Total Marks: " +
+        student.calculateTotal() + "<br><br>" +
+
+        "Average Marks: " +
+        student.calculateAverage().toFixed(2) + "<br><br>" +
+
+        "<strong>Grade: " +
+        student.getGrade() +
+        "</strong>";
+
+}
+
+</script>
+
+</body>
+
+</html>
