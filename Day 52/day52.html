@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Hotel Room Booking System</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background:#f3f4f6;
+            text-align:center;
+        }
+
+        .container{
+            width:750px;
+            margin:auto;
+            margin-top:30px;
+            background:white;
+            padding:25px;
+            border-radius:10px;
+            box-shadow:0 0 10px gray;
+        }
+
+        input,
+        select,
+        button{
+            width:320px;
+            padding:10px;
+            margin:10px;
+        }
+
+        button{
+            background:#0891b2;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        #result{
+            margin-top:20px;
+            text-align:left;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🏨 Hotel Room Booking System</h2>
+
+    <input
+        type="text"
+        id="guestName"
+        placeholder="Guest Name">
+
+    <br>
+
+    <select id="roomType">
+
+        <option value="">
+            Select Room Type
+        </option>
+
+        <option value="Standard">
+            Standard
+        </option>
+
+        <option value="Deluxe">
+            Deluxe
+        </option>
+
+        <option value="Suite">
+            Suite
+        </option>
+
+    </select>
+
+    <br>
+
+    <input
+        type="number"
+        id="nights"
+        placeholder="Number of Nights">
+
+    <br>
+
+    <select id="meal">
+
+        <option value="">
+            Meal Package
+        </option>
+
+        <option value="Yes">
+            Include Meals
+        </option>
+
+        <option value="No">
+            No Meals
+        </option>
+
+    </select>
+
+    <br>
+
+    <button onclick="bookRoom()">
+        Generate Booking
+    </button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+class HotelBooking{
+
+    constructor(name, roomType, nights){
+
+        this.name = name;
+        this.roomType = roomType;
+        this.nights = nights;
+
+    }
+
+    getRoomPrice(){
+
+        if(this.roomType == "Standard"){
+
+            return 3000;
+
+        }
+        else if(this.roomType == "Deluxe"){
+
+            return 6000;
+
+        }
+        else{
+
+            return 10000;
+
+        }
+
+    }
+
+    calculateRoomCost(){
+
+        return this.getRoomPrice() * this.nights;
+
+    }
+
+}
+
+function bookRoom(){
+
+    var guestName =
+        document.getElementById("guestName").value;
+
+    var roomType =
+        document.getElementById("roomType").value;
+
+    var nights =
+        Number(document.getElementById("nights").value);
+
+    var meal =
+        document.getElementById("meal").value;
+
+    if(
+        guestName == "" ||
+        roomType == "" ||
+        nights <= 0 ||
+        meal == ""
+    ){
+
+        document.getElementById("result").innerHTML =
+            "Please fill all fields";
+
+        return;
+
+    }
+
+    var booking =
+        new HotelBooking(
+            guestName,
+            roomType,
+            nights
+        );
+
+    var roomCost =
+        booking.calculateRoomCost();
+
+    var mealCost = 0;
+
+    if(meal == "Yes"){
+
+        mealCost =
+            nights * 1000;
+
+    }
+
+    var total =
+        roomCost + mealCost;
+
+    document.getElementById("result").innerHTML =
+
+        "<h3>Booking Summary</h3>" +
+
+        "Guest Name: " +
+        booking.name + "<br><br>" +
+
+        "Room Type: " +
+        booking.roomType + "<br><br>" +
+
+        "Nights: " +
+        booking.nights + "<br><br>" +
+
+        "Room Cost: Rs. " +
+        roomCost + "<br><br>" +
+
+        "Meal Cost: Rs. " +
+        mealCost + "<br><br>" +
+
+        "<strong>Total Bill: Rs. " +
+        total +
+        "</strong>";
+
+}
+
+</script>
+
+</body>
+
+</html>

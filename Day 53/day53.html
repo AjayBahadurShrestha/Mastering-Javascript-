@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Gaming Tournament System</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background: #f4f4f4;
+            text-align: center;
+        }
+
+        .container{
+            width: 700px;
+            margin: auto;
+            margin-top: 30px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        input,
+        select,
+        button{
+            width: 320px;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        button{
+            background: purple;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #result{
+            margin-top: 20px;
+            text-align: left;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🎮 Gaming Tournament Registration</h2>
+
+    <input
+        type="text"
+        id="player"
+        placeholder="Player Name">
+
+    <br>
+
+    <select id="game">
+
+        <option value="">
+            Select Game
+        </option>
+
+        <option value="PUBG">
+            PUBG
+        </option>
+
+        <option value="Free Fire">
+            Free Fire
+        </option>
+
+        <option value="Valorant">
+            Valorant
+        </option>
+
+    </select>
+
+    <br>
+
+    <select id="team">
+
+        <option value="">
+            Team Type
+        </option>
+
+        <option value="Solo">
+            Solo
+        </option>
+
+        <option value="Squad">
+            Squad
+        </option>
+
+    </select>
+
+    <br>
+
+    <input
+        type="number"
+        id="members"
+        placeholder="Number of Members">
+
+    <br>
+
+    <button onclick="registerPlayer()">
+        Register
+    </button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+class Tournament{
+
+    constructor(player, game, team, members){
+
+        this.player = player;
+        this.game = game;
+        this.team = team;
+        this.members = members;
+
+    }
+
+    getEntryFee(){
+
+        if(this.game == "PUBG"){
+
+            return 500;
+
+        }
+        else if(this.game == "Free Fire"){
+
+            return 400;
+
+        }
+        else{
+
+            return 700;
+
+        }
+
+    }
+
+    calculateTotalFee(){
+
+        return this.getEntryFee() *
+               this.members;
+
+    }
+
+}
+
+function registerPlayer(){
+
+    var player =
+        document.getElementById("player").value;
+
+    var game =
+        document.getElementById("game").value;
+
+    var team =
+        document.getElementById("team").value;
+
+    var members =
+        Number(document.getElementById("members").value);
+
+    if(
+        player == "" ||
+        game == "" ||
+        team == "" ||
+        members <= 0
+    ){
+
+        document.getElementById("result").innerHTML =
+            "Please fill all fields";
+
+        return;
+
+    }
+
+    var tournament =
+        new Tournament(
+            player,
+            game,
+            team,
+            members
+        );
+
+    var totalFee =
+        tournament.calculateTotalFee();
+
+    var prizePool = "";
+
+    if(totalFee >= 2000){
+
+        prizePool =
+            "Premium Prize Pool";
+
+    }
+    else{
+
+        prizePool =
+            "Standard Prize Pool";
+
+    }
+
+    document.getElementById("result").innerHTML =
+
+        "<h3>Tournament Registration</h3>" +
+
+        "Player: " +
+        tournament.player + "<br><br>" +
+
+        "Game: " +
+        tournament.game + "<br><br>" +
+
+        "Team Type: " +
+        tournament.team + "<br><br>" +
+
+        "Members: " +
+        tournament.members + "<br><br>" +
+
+        "Entry Fee Per Player: Rs. " +
+        tournament.getEntryFee() + "<br><br>" +
+
+        "Total Registration Fee: Rs. " +
+        totalFee + "<br><br>" +
+
+        "Tournament Category: " +
+        prizePool;
+
+}
+
+</script>
+
+</body>
+
+</html>
