@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Ambulance Dispatch System</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background:#f3f4f6;
+            text-align:center;
+        }
+
+        .container{
+            width:750px;
+            margin:auto;
+            margin-top:30px;
+            background:white;
+            padding:25px;
+            border-radius:10px;
+            box-shadow:0 0 10px gray;
+        }
+
+        input,
+        select,
+        button{
+            width:320px;
+            padding:10px;
+            margin:10px;
+        }
+
+        button{
+            background:#dc2626;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        #result{
+            margin-top:20px;
+            text-align:left;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🚑 Ambulance Dispatch System</h2>
+
+    <input
+        type="text"
+        id="patient"
+        placeholder="Patient Name">
+
+    <br>
+
+    <input
+        type="number"
+        id="distance"
+        placeholder="Distance (KM)">
+
+    <br>
+
+    <select id="emergency">
+
+        <option value="">
+            Select Emergency Level
+        </option>
+
+        <option value="Low">
+            Low
+        </option>
+
+        <option value="Medium">
+            Medium
+        </option>
+
+        <option value="High">
+            High
+        </option>
+
+    </select>
+
+    <br>
+
+    <select id="ambulance">
+
+        <option value="">
+            Select Ambulance Type
+        </option>
+
+        <option value="Basic">
+            Basic
+        </option>
+
+        <option value="Advanced">
+            Advanced
+        </option>
+
+        <option value="ICU">
+            ICU
+        </option>
+
+    </select>
+
+    <br>
+
+    <button onclick="dispatchAmbulance()">
+        Dispatch Ambulance
+    </button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+class AmbulanceRequest{
+
+    constructor(patient, distance, ambulance){
+
+        this.patient = patient;
+        this.distance = distance;
+        this.ambulance = ambulance;
+
+    }
+
+    getBaseCharge(){
+
+        if(this.ambulance == "Basic"){
+
+            return 1000;
+
+        }
+        else if(this.ambulance == "Advanced"){
+
+            return 2500;
+
+        }
+        else{
+
+            return 5000;
+
+        }
+
+    }
+
+    calculateBill(){
+
+        return this.getBaseCharge() +
+               (this.distance * 50);
+
+    }
+
+}
+
+function dispatchAmbulance(){
+
+    var patient =
+        document.getElementById("patient").value;
+
+    var distance =
+        Number(document.getElementById("distance").value);
+
+    var emergency =
+        document.getElementById("emergency").value;
+
+    var ambulance =
+        document.getElementById("ambulance").value;
+
+    if(
+        patient == "" ||
+        distance <= 0 ||
+        emergency == "" ||
+        ambulance == ""
+    ){
+
+        document.getElementById("result").innerHTML =
+            "Please fill all fields";
+
+        return;
+
+    }
+
+    var request =
+        new AmbulanceRequest(
+            patient,
+            distance,
+            ambulance
+        );
+
+    var bill =
+        request.calculateBill();
+
+    var priority = "";
+
+    if(emergency == "High"){
+
+        priority = "Immediate Dispatch";
+
+    }
+    else if(emergency == "Medium"){
+
+        priority = "Urgent Dispatch";
+
+    }
+    else{
+
+        priority = "Normal Dispatch";
+
+    }
+
+    document.getElementById("result").innerHTML =
+
+        "<h3>Emergency Dispatch Report</h3>" +
+
+        "Patient Name: " +
+        request.patient + "<br><br>" +
+
+        "Ambulance Type: " +
+        request.ambulance + "<br><br>" +
+
+        "Distance: " +
+        request.distance + " KM<br><br>" +
+
+        "Priority: " +
+        priority + "<br><br>" +
+
+        "Base Charge: Rs. " +
+        request.getBaseCharge() + "<br><br>" +
+
+        "<strong>Total Bill: Rs. " +
+        bill +
+        "</strong>";
+
+}
+
+</script>
+
+</body>
+
+</html>
