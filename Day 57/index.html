@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Hospital Management System</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background:#f5f5f5;
+            text-align:center;
+        }
+
+        .container{
+            width:850px;
+            margin:auto;
+            margin-top:30px;
+            background:white;
+            padding:25px;
+            border-radius:10px;
+            box-shadow:0 0 10px gray;
+        }
+
+        input,
+        select,
+        button{
+            width:350px;
+            padding:10px;
+            margin:10px;
+        }
+
+        button{
+            background:#16a34a;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        #result{
+            margin-top:20px;
+            text-align:left;
+            font-size:17px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🏥 Hospital Patient Management System</h2>
+
+    <input
+        type="text"
+        id="patientName"
+        placeholder="Patient Name">
+
+    <br>
+
+    <select id="doctor">
+
+        <option value="">
+            Select Doctor
+        </option>
+
+        <option value="General">
+            General Physician
+        </option>
+
+        <option value="Cardiology">
+            Cardiologist
+        </option>
+
+        <option value="Neurology">
+            Neurologist
+        </option>
+
+    </select>
+
+    <br>
+
+    <select id="room">
+
+        <option value="">
+            Select Room Type
+        </option>
+
+        <option value="General">
+            General Ward
+        </option>
+
+        <option value="Private">
+            Private Room
+        </option>
+
+        <option value="VIP">
+            VIP Room
+        </option>
+
+    </select>
+
+    <br>
+
+    <input
+        type="number"
+        id="days"
+        placeholder="Days Admitted">
+
+    <br>
+
+    <input
+        type="number"
+        id="treatment"
+        placeholder="Treatment Cost">
+
+    <br>
+
+    <button onclick="generateBill()">
+        Generate Hospital Bill
+    </button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+class Patient{
+
+    constructor(name, doctor, room, days, treatment){
+
+        this.name = name;
+        this.doctor = doctor;
+        this.room = room;
+        this.days = days;
+        this.treatment = treatment;
+
+    }
+
+    getDoctorFee(){
+
+        if(this.doctor == "General"){
+
+            return 1000;
+
+        }
+        else if(this.doctor == "Cardiology"){
+
+            return 3000;
+
+        }
+        else{
+
+            return 5000;
+
+        }
+
+    }
+
+    getRoomCharge(){
+
+        if(this.room == "General"){
+
+            return 1500 * this.days;
+
+        }
+        else if(this.room == "Private"){
+
+            return 4000 * this.days;
+
+        }
+        else{
+
+            return 8000 * this.days;
+
+        }
+
+    }
+
+    calculateSubtotal(){
+
+        return this.treatment +
+               this.getDoctorFee() +
+               this.getRoomCharge();
+
+    }
+
+    calculateTax(){
+
+        return this.calculateSubtotal() * 0.05;
+    }
+
+    calculateTotal(){
+
+        return this.calculateSubtotal() +
+               this.calculateTax();
+    }
+
+    getPatientCategory(){
+
+        if(this.calculateTotal() > 50000){
+
+            return "Premium Care";
+
+        }
+        else{
+
+            return "Standard Care";
+
+        }
+
+    }
+
+}
+
+function generateBill(){
+
+    var name =
+        document.getElementById("patientName").value;
+
+    var doctor =
+        document.getElementById("doctor").value;
+
+    var room =
+        document.getElementById("room").value;
+
+    var days =
+        Number(document.getElementById("days").value);
+
+    var treatment =
+        Number(document.getElementById("treatment").value);
+
+    if(
+        name == "" ||
+        doctor == "" ||
+        room == "" ||
+        days <= 0 ||
+        treatment <= 0
+    ){
+
+        document.getElementById("result").innerHTML =
+            "Please enter valid information.";
+
+        return;
+
+    }
+
+    var patient =
+        new Patient(
+            name,
+            doctor,
+            room,
+            days,
+            treatment
+        );
+
+    document.getElementById("result").innerHTML =
+
+        "<h3>Patient Bill Report</h3>" +
+
+        "Patient Name: " +
+        patient.name + "<br><br>" +
+
+        "Doctor Type: " +
+        patient.doctor + "<br><br>" +
+
+        "Room Type: " +
+        patient.room + "<br><br>" +
+
+        "Days Admitted: " +
+        patient.days + "<br><br>" +
+
+        "Treatment Cost: Rs. " +
+        patient.treatment + "<br><br>" +
+
+        "Doctor Fee: Rs. " +
+        patient.getDoctorFee() + "<br><br>" +
+
+        "Room Charges: Rs. " +
+        patient.getRoomCharge() + "<br><br>" +
+
+        "Subtotal: Rs. " +
+        patient.calculateSubtotal().toFixed(2) + "<br><br>" +
+
+        "Tax (5%): Rs. " +
+        patient.calculateTax().toFixed(2) + "<br><br>" +
+
+        "Care Category: " +
+        patient.getPatientCategory() + "<br><br>" +
+
+        "<strong>Total Bill: Rs. " +
+        patient.calculateTotal().toFixed(2) +
+        "</strong>";
+
+}
+
+</script>
+
+</body>
+</html>
