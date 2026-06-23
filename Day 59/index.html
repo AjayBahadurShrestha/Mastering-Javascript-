@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Employee Payroll System</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f5f7fa;
+            text-align:center;
+        }
+
+        .container{
+            width:900px;
+            margin:auto;
+            margin-top:30px;
+            background:white;
+            padding:25px;
+            border-radius:10px;
+            box-shadow:0 0 10px gray;
+        }
+
+        input,
+        select,
+        button{
+            width:350px;
+            padding:10px;
+            margin:10px;
+        }
+
+        button{
+            background:#059669;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        #result{
+            margin-top:20px;
+            text-align:left;
+            font-size:17px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🏢 Employee Payroll & Performance System</h2>
+
+    <input
+        type="text"
+        id="employeeName"
+        placeholder="Employee Name">
+
+    <br>
+
+    <input
+        type="number"
+        id="salary"
+        placeholder="Basic Salary">
+
+    <br>
+
+    <input
+        type="number"
+        id="overtime"
+        placeholder="Overtime Hours">
+
+    <br>
+
+    <input
+        type="number"
+        id="projects"
+        placeholder="Projects Completed">
+
+    <br>
+
+    <select id="department">
+
+        <option value="">
+            Select Department
+        </option>
+
+        <option value="IT">
+            IT
+        </option>
+
+        <option value="HR">
+            HR
+        </option>
+
+        <option value="Finance">
+            Finance
+        </option>
+
+    </select>
+
+    <br>
+
+    <button onclick="generatePayroll()">
+        Generate Payroll
+    </button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+class Employee{
+
+    constructor(name,salary,overtime,projects,department){
+
+        this.name = name;
+        this.salary = salary;
+        this.overtime = overtime;
+        this.projects = projects;
+        this.department = department;
+
+    }
+
+    getOvertimePay(){
+
+        return this.overtime * 500;
+
+    }
+
+    getBonus(){
+
+        if(this.projects >= 10){
+
+            return 15000;
+
+        }
+        else if(this.projects >= 5){
+
+            return 8000;
+
+        }
+        else{
+
+            return 2000;
+
+        }
+
+    }
+
+    getGrossSalary(){
+
+        return this.salary +
+               this.getOvertimePay() +
+               this.getBonus();
+
+    }
+
+    getTax(){
+
+        return this.getGrossSalary() * 0.10;
+
+    }
+
+    getNetSalary(){
+
+        return this.getGrossSalary() -
+               this.getTax();
+
+    }
+
+    getPerformance(){
+
+        if(this.projects >= 10){
+
+            return "Excellent";
+
+        }
+        else if(this.projects >= 5){
+
+            return "Good";
+
+        }
+        else{
+
+            return "Average";
+
+        }
+
+    }
+
+}
+
+function generatePayroll(){
+
+    var name =
+        document.getElementById("employeeName").value;
+
+    var salary =
+        Number(document.getElementById("salary").value);
+
+    var overtime =
+        Number(document.getElementById("overtime").value);
+
+    var projects =
+        Number(document.getElementById("projects").value);
+
+    var department =
+        document.getElementById("department").value;
+
+    if(
+        name == "" ||
+        salary <= 0 ||
+        overtime < 0 ||
+        projects < 0 ||
+        department == ""
+    ){
+
+        document.getElementById("result").innerHTML =
+            "Please enter valid information.";
+
+        return;
+
+    }
+
+    var employee =
+        new Employee(
+            name,
+            salary,
+            overtime,
+            projects,
+            department
+        );
+
+    document.getElementById("result").innerHTML =
+
+        "<h3>Employee Payroll Report</h3>" +
+
+        "Employee Name: " +
+        employee.name + "<br><br>" +
+
+        "Department: " +
+        employee.department + "<br><br>" +
+
+        "Basic Salary: Rs. " +
+        employee.salary + "<br><br>" +
+
+        "Overtime Pay: Rs. " +
+        employee.getOvertimePay() + "<br><br>" +
+
+        "Bonus: Rs. " +
+        employee.getBonus() + "<br><br>" +
+
+        "Gross Salary: Rs. " +
+        employee.getGrossSalary().toFixed(2) + "<br><br>" +
+
+        "Tax Deduction: Rs. " +
+        employee.getTax().toFixed(2) + "<br><br>" +
+
+        "Performance Rating: " +
+        employee.getPerformance() + "<br><br>" +
+
+        "<strong>Net Salary: Rs. " +
+        employee.getNetSalary().toFixed(2) +
+        "</strong>";
+
+}
+
+</script>
+
+</body>
+</html>
