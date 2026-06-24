@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Inventory Management System</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f4f6f9;
+            text-align:center;
+        }
+
+        .container{
+            width:900px;
+            margin:auto;
+            margin-top:30px;
+            background:white;
+            padding:25px;
+            border-radius:10px;
+            box-shadow:0 0 10px gray;
+        }
+
+        input,
+        select,
+        button{
+            width:350px;
+            padding:10px;
+            margin:10px;
+        }
+
+        button{
+            background:#ea580c;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        #result{
+            margin-top:20px;
+            text-align:left;
+            font-size:17px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🏬 Inventory & Stock Management System</h2>
+
+    <input
+        type="text"
+        id="productName"
+        placeholder="Product Name">
+
+    <br>
+
+    <select id="category">
+
+        <option value="">
+            Select Category
+        </option>
+
+        <option value="Electronics">
+            Electronics
+        </option>
+
+        <option value="Clothing">
+            Clothing
+        </option>
+
+        <option value="Food">
+            Food
+        </option>
+
+    </select>
+
+    <br>
+
+    <input
+        type="number"
+        id="price"
+        placeholder="Price Per Unit">
+
+    <br>
+
+    <input
+        type="number"
+        id="stock"
+        placeholder="Available Stock">
+
+    <br>
+
+    <input
+        type="number"
+        id="sold"
+        placeholder="Units Sold">
+
+    <br>
+
+    <button onclick="generateInventoryReport()">
+        Generate Report
+    </button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+class Inventory{
+
+    constructor(name, category, price, stock, sold){
+
+        this.name = name;
+        this.category = category;
+        this.price = price;
+        this.stock = stock;
+        this.sold = sold;
+
+    }
+
+    getRemainingStock(){
+
+        return this.stock - this.sold;
+
+    }
+
+    getInventoryValue(){
+
+        return this.getRemainingStock() *
+               this.price;
+
+    }
+
+    getRevenue(){
+
+        return this.sold *
+               this.price;
+
+    }
+
+    getStockStatus(){
+
+        if(this.getRemainingStock() <= 10){
+
+            return "Low Stock";
+
+        }
+        else if(this.getRemainingStock() <= 50){
+
+            return "Medium Stock";
+
+        }
+        else{
+
+            return "High Stock";
+
+        }
+
+    }
+
+    getReorderStatus(){
+
+        if(this.getRemainingStock() < 20){
+
+            return "Reorder Required";
+
+        }
+
+        return "Stock Sufficient";
+
+    }
+
+}
+
+function generateInventoryReport(){
+
+    var name =
+        document.getElementById("productName").value;
+
+    var category =
+        document.getElementById("category").value;
+
+    var price =
+        Number(document.getElementById("price").value);
+
+    var stock =
+        Number(document.getElementById("stock").value);
+
+    var sold =
+        Number(document.getElementById("sold").value);
+
+    if(
+        name == "" ||
+        category == "" ||
+        price <= 0 ||
+        stock <= 0 ||
+        sold < 0 ||
+        sold > stock
+    ){
+
+        document.getElementById("result").innerHTML =
+            "Please enter valid data.";
+
+        return;
+
+    }
+
+    var item =
+        new Inventory(
+            name,
+            category,
+            price,
+            stock,
+            sold
+        );
+
+    document.getElementById("result").innerHTML =
+
+        "<h3>Inventory Report</h3>" +
+
+        "Product Name: " +
+        item.name + "<br><br>" +
+
+        "Category: " +
+        item.category + "<br><br>" +
+
+        "Price Per Unit: Rs. " +
+        item.price + "<br><br>" +
+
+        "Opening Stock: " +
+        item.stock + "<br><br>" +
+
+        "Units Sold: " +
+        item.sold + "<br><br>" +
+
+        "Remaining Stock: " +
+        item.getRemainingStock() + "<br><br>" +
+
+        "Revenue Generated: Rs. " +
+        item.getRevenue().toFixed(2) + "<br><br>" +
+
+        "Inventory Value: Rs. " +
+        item.getInventoryValue().toFixed(2) + "<br><br>" +
+
+        "Stock Status: " +
+        item.getStockStatus() + "<br><br>" +
+
+        "Reorder Status: " +
+        item.getReorderStatus() + "<br><br>";
+
+}
+
+</script>
+
+</body>
+
+</html>
